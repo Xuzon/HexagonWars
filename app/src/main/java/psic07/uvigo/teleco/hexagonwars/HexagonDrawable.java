@@ -12,10 +12,15 @@ import android.util.FloatMath;
 
 public class HexagonDrawable extends Drawable {
 
+    public int centerColor = 0xffff0000;
+    public static int blueColor = 0xff11D5F7;
+    public static int redColor = 0xffF72A86;
     public static final int SIDES = 6;
     private Path hexagon = new Path();
+    private Path centerHexagon = new Path();
     private Path temporal = new Path();
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint centerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public HexagonDrawable(int color) {
         paint.setColor(color);
@@ -25,6 +30,8 @@ public class HexagonDrawable extends Drawable {
     @Override
     public void draw(Canvas canvas) {
         canvas.drawPath(hexagon, paint);
+        centerPaint.setColor(centerColor);
+        canvas.drawPath(centerHexagon,centerPaint);
     }
 
     @Override
@@ -40,8 +47,16 @@ public class HexagonDrawable extends Drawable {
     @Override
     public int getOpacity() {
         int toRet = paint.getAlpha();
-
-        return toRet;
+        if(toRet == 0){
+            return PixelFormat.TRANSPARENT;
+        }
+        if(toRet == 255){
+            return  PixelFormat.OPAQUE;
+        }
+        if(toRet < 255 && toRet > 0){
+            return  PixelFormat.TRANSLUCENT;
+        }
+        return PixelFormat.UNKNOWN;
     }
 
     @Override
@@ -62,6 +77,9 @@ public class HexagonDrawable extends Drawable {
         hexagon.reset();
         hexagon.addPath(createHexagon(size, centerX, centerY));
         hexagon.addPath(createHexagon((int) (size * .8f), centerX, centerY));
+        centerHexagon.reset();
+        centerHexagon.addPath(createHexagon((int) (size * .7f), centerX, centerY));
+        centerHexagon.addPath(createHexagon(0,centerX ,centerY));
     }
 
     private Path createHexagon(int size, int centerX, int centerY) {
@@ -69,15 +87,13 @@ public class HexagonDrawable extends Drawable {
         int radius = size / 2;
         Path hex = temporal;
         hex.reset();
-        hex.moveTo(
-                (centerX + radius * FloatMath.cos(0)),
-                (centerY + radius * FloatMath.sin(0)));
-
-        for (int i = 1; i < SIDES; i++) {
-            hex.lineTo(
-                    (centerX + radius * FloatMath.cos(section * i)),
-                    (centerY + radius * FloatMath.sin(section * i)));
-        }
+        hex.moveTo(centerX, centerY + radius);
+        hex.lineTo(centerX + radius, centerY + radius / 2);
+        hex.lineTo(centerX + radius, centerY - radius / 2);
+        hex.lineTo(centerX, centerY - radius);
+        hex.lineTo(centerX - radius, centerY - radius / 2);
+        hex.lineTo(centerX - radius, centerY + radius / 2);
+        hex.lineTo(centerX , centerY + radius);
 
         hex.close();
         return hex;
