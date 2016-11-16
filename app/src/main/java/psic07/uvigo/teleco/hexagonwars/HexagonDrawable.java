@@ -94,7 +94,6 @@ public class HexagonDrawable extends Drawable {
         hex.lineTo(centerX - radius, centerY - radius / 2);
         hex.lineTo(centerX - radius, centerY + radius / 2);
         hex.lineTo(centerX , centerY + radius);
-
         hex.close();
         return hex;
     }
