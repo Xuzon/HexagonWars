@@ -12,10 +12,10 @@ import android.util.FloatMath;
 
 public class HexagonDrawable extends Drawable {
 
-    public int centerColor = 0xffff0000;
+    public int centerColor = 0x0;
     public static int blueColor = 0xff11D5F7;
     public static int redColor = 0xffF72A86;
-    public static final int SIDES = 6;
+    public static final float FILL_PERCENTAGE = 0.9f;
     private Path hexagon = new Path();
     private Path centerHexagon = new Path();
     private Path temporal = new Path();
@@ -76,14 +76,13 @@ public class HexagonDrawable extends Drawable {
 
         hexagon.reset();
         hexagon.addPath(createHexagon(size, centerX, centerY));
-        hexagon.addPath(createHexagon((int) (size * .8f), centerX, centerY));
+        hexagon.addPath(createHexagon((int) (size * FILL_PERCENTAGE), centerX, centerY));
         centerHexagon.reset();
-        centerHexagon.addPath(createHexagon((int) (size * .7f), centerX, centerY));
+        centerHexagon.addPath(createHexagon((int) (size * FILL_PERCENTAGE), centerX, centerY));
         centerHexagon.addPath(createHexagon(0,centerX ,centerY));
     }
 
     private Path createHexagon(int size, int centerX, int centerY) {
-        final float section = (float) (2.0 * Math.PI / SIDES);
         int radius = size / 2;
         Path hex = temporal;
         hex.reset();
