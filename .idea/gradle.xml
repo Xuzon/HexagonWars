@@ -3,13 +3,12 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="LOCAL" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="D:\Programas\AndroidStudio\gradle\gradle-2.14.1" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$USER_HOME$/GETT/4º/1º Cuatrimestre/PSI/Proyecto/HexagonWars" />
+            <option value="$USER_HOME$/GETT/4º/1º Cuatrimestre/PSI/Proyecto/HexagonWars/app" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
