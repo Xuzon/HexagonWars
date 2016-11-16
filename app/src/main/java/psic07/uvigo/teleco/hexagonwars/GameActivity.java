@@ -18,7 +18,7 @@ public class GameActivity extends AppCompatActivity {
     public final static int SIZE = 150;
     public final static int HEXAGONS_PER_ROW = 7;
     public final static int ROWS = 9;
-    public final static int yOffset = 400;
+    public static int gridYOffset = 400;
     public static int screenWidth = 0;
     public static int screenHeight = 0;
     public ArrayList<HexagonView> grid;
@@ -30,6 +30,9 @@ public class GameActivity extends AppCompatActivity {
         this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         screenWidth = metrics.widthPixels;
         screenHeight = metrics.heightPixels;
+
+        gridYOffset = (int) ((screenHeight-((3f/4f)*SIZE*ROWS))/2);
+
         //Ocultar barra notificaciones Android
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -58,7 +61,7 @@ public class GameActivity extends AppCompatActivity {
                 if(!notOdd && i == (HEXAGONS_PER_ROW - 1)){
                     continue;
                 }
-                Vector2 coords = new Vector2(i * SIZE + offset,yOffset + j*(SIZE / 4) * 3);
+                Vector2 coords = new Vector2(i * SIZE + offset,gridYOffset + j*(SIZE / 4) * 3);
                 HexagonView hexagon = new HexagonView(this,coords,hexagonDimension, 0);
                 toRet.add(hexagon);
             }
