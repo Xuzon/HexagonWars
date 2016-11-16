@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.widget.FrameLayout;
+import android.view.Window;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
 
@@ -16,6 +18,10 @@ public class GameActivity extends AppCompatActivity {
     public ArrayList<HexagonView> grid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Ocultar barra notificaciones Android
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
         frameLayout = new FrameLayout(this);
         grid = CreateGrid();
