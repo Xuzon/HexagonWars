@@ -1,5 +1,6 @@
 package psic07.uvigo.teleco.hexagonwars;
 
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -7,9 +8,10 @@ import android.webkit.ServiceWorkerClient;
 import android.widget.FrameLayout;
 import android.view.Window;
 import android.view.WindowManager;
-
+import android.view.ViewGroup.LayoutParams;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -31,6 +33,7 @@ public class GameActivity extends AppCompatActivity {
         screenWidth = metrics.widthPixels;
         screenHeight = metrics.heightPixels;
 
+        //Calculo del centro del grid.
         gridYOffset = (int) ((screenHeight-((3f/4f)*SIZE*ROWS))/2);
 
         //Ocultar barra notificaciones Android
@@ -42,6 +45,17 @@ public class GameActivity extends AppCompatActivity {
         SetBackground();
         ShowGrid();
         addScore();
+
+//        TextView dynamicTextView = new TextView(this);
+//        //dynamicTextView.getOffsetForPosition()
+//        LayoutParams lpTextView = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//        dynamicTextView.setLayoutParams(lpTextView);
+//        dynamicTextView.setPaddingRelative(510,133,0,0);
+//        dynamicTextView.setTextSize(20);
+//        dynamicTextView.setText("8");
+//        dynamicTextView.setTypeface(null, Typeface.BOLD);
+//        frameLayout.addView(dynamicTextView);
+
         setContentView(frameLayout);
     }
 
@@ -62,7 +76,7 @@ public class GameActivity extends AppCompatActivity {
                     continue;
                 }
                 Vector2 coords = new Vector2(i * SIZE + offset,gridYOffset + j*(SIZE / 4) * 3);
-                HexagonView hexagon = new HexagonView(this,coords,hexagonDimension, 0);
+                HexagonView hexagon = new HexagonView(this,coords,hexagonDimension, 0, "");
                 toRet.add(hexagon);
             }
         }
@@ -75,12 +89,12 @@ public class GameActivity extends AppCompatActivity {
         int offsetyH2 = screenHeight-SIZE-100;
         Vector2 hexagonDimension = new Vector2(SIZE,SIZE);
         Vector2 coords = new Vector2(offsetx, offsetyH1);
-        HexagonView hexagon = new HexagonView(this,coords,hexagonDimension, HexagonDrawable.blueColor);
+        HexagonView hexagon = new HexagonView(this,coords,hexagonDimension, HexagonDrawable.blueColor, "12");
         frameLayout.addView(hexagon);
 
         hexagonDimension = new Vector2(SIZE,SIZE);
         coords = new Vector2(offsetx, offsetyH2);
-        hexagon = new HexagonView(this,coords,hexagonDimension, HexagonDrawable.redColor);
+        hexagon = new HexagonView(this,coords,hexagonDimension, HexagonDrawable.redColor, "25");
         frameLayout.addView(hexagon);
 
     }

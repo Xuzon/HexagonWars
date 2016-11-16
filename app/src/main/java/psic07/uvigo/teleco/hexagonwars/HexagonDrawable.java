@@ -1,5 +1,6 @@
 package psic07.uvigo.teleco.hexagonwars;
 
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.graphics.Canvas;
@@ -15,6 +16,7 @@ public class HexagonDrawable extends Drawable {
     public int centerColor = 0xffff0000;
     public static int blueColor = 0xff11D5F7;
     public static int redColor = 0xffF72A86;
+    public static int transparent = 0x0;
     private Path hexagon = new Path();
     private Path centerHexagon = new Path();
     private Path temporal = new Path();
