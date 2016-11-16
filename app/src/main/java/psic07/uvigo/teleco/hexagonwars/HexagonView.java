@@ -14,12 +14,14 @@ import java.util.Random;
 public class HexagonView extends View {
     public HexagonDrawable hexagon;
 
-    public HexagonView(Context context,Vector2 coords, Vector2 dim) {
+    public HexagonView(Context context,Vector2 coords, Vector2 dim, int color) {
         super(context);
         hexagon = new HexagonDrawable(0xff00FF84);
-        Random random = new Random();
-        int r = random.nextInt(2);
-        int color = (r == 0) ? hexagon.blueColor : hexagon.redColor;
+        if(color==0) {
+            Random random = new Random();
+            int r = random.nextInt(2);
+            color = (r == 0) ? hexagon.blueColor : hexagon.redColor;
+         }
         hexagon.centerColor = color;
         hexagon.setBounds(coords.x, coords.y, coords.x + dim.x, coords.y + dim.y);
     }
