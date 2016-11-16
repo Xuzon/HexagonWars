@@ -66,6 +66,8 @@ public class HexagonDrawable extends Drawable {
         invalidateSelf();
     }
 
+
+    
     public void computeHex(Rect bounds) {
 
         final int width = bounds.width();
