@@ -9,6 +9,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import android.util.DisplayMetrics;
+import android.widget.ImageView;
+
 import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
@@ -28,18 +30,23 @@ public class GameActivity extends AppCompatActivity {
         this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         screenWidth = metrics.widthPixels;
         screenHeight = metrics.heightPixels;
-
         //Ocultar barra notificaciones Android
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
         frameLayout = new FrameLayout(this);
         grid = CreateGrid();
+        SetBackground();
         ShowGrid();
         addScore();
         setContentView(frameLayout);
     }
 
+    private void SetBackground() {
+        ImageView background = new ImageView(this);
+        background.setBackgroundResource(R.drawable.gamebackground);
+        frameLayout.addView(background);
+    }
 
     private ArrayList<HexagonView> CreateGrid() {
         ArrayList<HexagonView> toRet = new ArrayList<HexagonView>();
@@ -77,6 +84,9 @@ public class GameActivity extends AppCompatActivity {
 
     private void ShowGrid(){
         for(HexagonView hexagon : grid){
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(100,100);
+            params.leftMargin = hexagon.coords.x;
+            params.topMargin = hexagon.coords.y;
             frameLayout.addView(hexagon);
         }
     }

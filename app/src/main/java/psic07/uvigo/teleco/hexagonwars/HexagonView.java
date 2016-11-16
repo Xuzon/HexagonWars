@@ -11,11 +11,13 @@ import java.util.Random;
  * Created by danie on 15/11/2016.
  */
 
-public class HexagonView extends View {
+public class HexagonView extends View implements View.OnClickListener{
     public HexagonDrawable hexagon;
+    Vector2 coords;
 
     public HexagonView(Context context,Vector2 coords, Vector2 dim, int color) {
         super(context);
+        this.coords = coords;
         hexagon = new HexagonDrawable(0xff00FF84);
         if(color==0) {
             Random random = new Random();
@@ -24,9 +26,20 @@ public class HexagonView extends View {
          }
         hexagon.centerColor = color;
         hexagon.setBounds(coords.x, coords.y, coords.x + dim.x, coords.y + dim.y);
+        this.setOnClickListener(this);
     }
 
     protected void onDraw(Canvas canvas) {
         hexagon.draw(canvas);
+    }
+
+    public String debug(){
+        return "HOLA DESDE (" + coords.x + "," + coords.y+ ")";
+    }
+
+    @Override
+    public void onClick(View v) {
+        HexagonView hex = (HexagonView) v;
+        System.out.println(hex.debug());
     }
 }
