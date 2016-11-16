@@ -24,11 +24,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-    
     private ArrayList<HexagonView> CreateGrid() {
         ArrayList<HexagonView> toRet = new ArrayList<HexagonView>();
         Vector2 hexagonDimension = new Vector2(SIZE,SIZE);
