@@ -1,56 +1,124 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="@drawable/gamebackground"
     tools:context="psic07.uvigo.teleco.hexagonwars.InitActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
-    <TextView
-        android:id="@+id/fullscreen_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/dummy_content"
-        android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:textStyle="bold" />
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
-    <FrameLayout
+
+
+    <TextView
+        android:text="Version: 1.0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignParentStart="true"
+        android:id="@+id/version" />
 
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
-
-            <Button
-                android:id="@+id/dummy_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dummy_button" />
-
-        </LinearLayout>
-    </FrameLayout>
-
-    <CheckBox
-        android:text="CheckBox"
+    <TextView
+        android:text="About"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/checkBox" />
+        android:textColor="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/about" />
 
-</FrameLayout>
+    <TextView
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/wins"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignEnd="@+id/ganadas"
+        android:id="@+id/lose" />
+
+    <TextView
+        android:text="Hexagon Wars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/titulo"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:paddingLeft="10dp"
+        android:id="@+id/wins"
+        android:layout_above="@+id/version"
+        android:layout_alignStart="@+id/ganadas"
+        android:layout_marginBottom="22dp" />
+
+    <TextView
+        android:text="Ganadas  -  Perdidas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/ganadas"
+        android:layout_above="@+id/wins"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Partidas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/partidas"
+        android:layout_above="@+id/ganadas"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Rules"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rules"
+        android:textColor="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_above="@+id/partidas"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/options"
+        android:textColor="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_above="@+id/rules"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/hexagon"
+        android:id="@+id/imageView5"
+        android:layout_marginBottom="32dp"
+        android:layout_above="@+id/rules"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="New Game"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_game"
+        android:textColor="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_above="@+id/options"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>
