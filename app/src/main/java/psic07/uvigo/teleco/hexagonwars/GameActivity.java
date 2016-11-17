@@ -1,29 +1,21 @@
 package psic07.uvigo.teleco.hexagonwars;
 
-import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.view.ViewGroup;
-import android.webkit.ServiceWorkerClient;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.ViewGroup.LayoutParams;
 import android.util.DisplayMetrics;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
-    RelativeLayout frameLayout;
+    RelativeLayout layout;
     public final static int SIZE = 150;
     public final static int HEXAGONS_PER_ROW = 7;
     public final static int ROWS = 9;
+    public static HexagonView topPlayerScore;
+    public static HexagonView bottomPlayerScore;
     public static int gridYOffset = 400;
     public static int screenWidth = 0;
     public static int screenHeight = 0;
@@ -44,23 +36,12 @@ public class GameActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
-        frameLayout = new RelativeLayout(this);
+        layout = new RelativeLayout(this);
         SetBackground();
         grid = CreateGrid();
         ShowGrid();
         addScore();
-
-//        TextView dynamicTextView = new TextView(this);
-//        //dynamicTextView.getOffsetForPosition()
-//        LayoutParams lpTextView = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-//        dynamicTextView.setLayoutParams(lpTextView);
-//        dynamicTextView.setPaddingRelative(510,133,0,0);
-//        dynamicTextView.setTextSize(20);
-//        dynamicTextView.setText("8");
-//        dynamicTextView.setTypeface(null, Typeface.BOLD);
-//        frameLayout.addView(dynamicTextView);
-
-        setContentView(frameLayout);
+        setContentView(layout);
     }
 
     private void SetBackground() {
@@ -69,7 +50,7 @@ public class GameActivity extends AppCompatActivity {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(1080, 1920);
         params.leftMargin = 0;
         params.topMargin = 0;
-        frameLayout.addView(background,params);
+        layout.addView(background,params);
     }
 
     private ArrayList<HexagonView> CreateGrid() {
@@ -87,7 +68,7 @@ public class GameActivity extends AppCompatActivity {
                 if(!notOdd && i == (HEXAGONS_PER_ROW - 1)){
                     continue;
                 }
-                Vector2 coords = new Vector2(oddOffset + i * xPos,yOffset + j * yPos);
+                Vector2 coords = new Vector2(oddOffset + i * xPos,gridYOffset + j * yPos);
                 HexagonView hexagon = new HexagonView(this,coords,hexagonDimension);
                 toRet.add(hexagon);
             }
@@ -101,13 +82,19 @@ public class GameActivity extends AppCompatActivity {
         int offsetyH2 = screenHeight-SIZE-100;
         Vector2 hexagonDimension = new Vector2(SIZE,SIZE);
         Vector2 coords = new Vector2(offsetx, offsetyH1);
-        HexagonView hexagon = new HexagonView(this,coords,hexagonDimension, HexagonDrawable.blueColor, "12");
-        frameLayout.addView(hexagon);
+        topPlayerScore = new HexagonView(this,coords,hexagonDimension, HexagonDrawable.blueColor, "12");
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(SIZE,SIZE);
+        params.leftMargin = offsetx;
+        params.topMargin = offsetyH1;
+        layout.addView(topPlayerScore,params);
 
         hexagonDimension = new Vector2(SIZE,SIZE);
         coords = new Vector2(offsetx, offsetyH2);
-        hexagon = new HexagonView(this,coords,hexagonDimension, HexagonDrawable.redColor, "25");
-        frameLayout.addView(hexagon);
+        bottomPlayerScore = new HexagonView(this,coords,hexagonDimension, HexagonDrawable.redColor, "25");
+        params = new RelativeLayout.LayoutParams(SIZE,SIZE);
+        params.leftMargin = offsetx;
+        params.topMargin = offsetyH2;
+        layout.addView(bottomPlayerScore,params);
 
     }
 
@@ -116,7 +103,7 @@ public class GameActivity extends AppCompatActivity {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(hexagon.dim.x, hexagon.dim.y);
             params.leftMargin = hexagon.coords.x;
             params.topMargin = hexagon.coords.y;
-            frameLayout.addView(hexagon,params);
+            layout.addView(hexagon,params);
         }
     }
 }

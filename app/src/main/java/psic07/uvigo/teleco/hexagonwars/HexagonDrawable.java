@@ -74,7 +74,7 @@ public class HexagonDrawable extends Drawable {
         final int width = dim.x;
         final int height = dim.y;
         final int size = Math.min(width, height);
-        //cneterX and Y is directly width / 2 and height / 2 because it is local canvas
+        //centerX and Y is directly width / 2 and height / 2 because it is local canvas
         final int centerX =  (width / 2);
         final int centerY = (height / 2);
 

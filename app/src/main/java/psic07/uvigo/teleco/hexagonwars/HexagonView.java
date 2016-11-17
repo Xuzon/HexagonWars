@@ -21,15 +21,23 @@ public class HexagonView extends View implements View.OnClickListener{
     Vector2 dim;
     String score="";
     public HexagonView(Context context,Vector2 coords, Vector2 dim) {
+        super(context);
+        this.coords = coords;
+        this.dim = dim;
+        SetupHexagonDrawable(dim,0);
 
+    }
 
     public HexagonView(Context context,Vector2 coords, Vector2 dim, int color, String score) {
         super(context);
         this.coords = coords;
         this.score=score;
-        this.coords = coords;
         this.dim = dim;
-        hexagon = new HexagonDrawable(0xff00FF84);
+        SetupHexagonDrawable(dim, color);
+    }
+
+    private void SetupHexagonDrawable(Vector2 dim, int color) {
+        hexagon = new HexagonDrawable(0xFF00FF84);
         if(color==0) {
             Random random = new Random();
             int r = random.nextInt(3);
@@ -38,7 +46,10 @@ public class HexagonView extends View implements View.OnClickListener{
         hexagon.centerColor = color;
         hexagon.dim = dim;
         hexagon.setBounds(dim.x / 2, dim.y / 2,dim.x,dim.y);
-        this.setOnClickListener(this);
+        //only no score hexagons has the skill to change color
+        if(score.equals("")) {
+            this.setOnClickListener(this);
+        }
     }
 
     public void ConquerMe(){
@@ -51,12 +62,13 @@ public class HexagonView extends View implements View.OnClickListener{
         hexagon.draw(canvas);
 
         //Pintamos el número de score en los hexágonos de puntuación.
-        if(score!="") {
+        if(!score.equals("")) {
             Paint textPaint = new Paint();
             textPaint.setTextAlign(Paint.Align.CENTER);
             textPaint.setTextSize(54);
             textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-            canvas.drawText(score, coords.x + GameActivity.SIZE / 2, coords.y + GameActivity.SIZE / 2 + 16, textPaint);
+            //position is dim.x/2  and dim.y/16 because it is local canvas
+            canvas.drawText(score, dim.x / 2, dim.y / 2 + 16, textPaint);
         }
     }
 
