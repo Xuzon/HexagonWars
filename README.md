@@ -1,11 +1,11 @@
 # HexagonWars
 
-- [Descripción](#description)
-- [Reglas](#Reglas)
-- [Referencias](#references)
+- [Descripción](#descripción)
+- [Reglas](#reglas)
+- [Referencias](#referencias)
 
 
-## Descripción <div id='description'/>
+## Descripción
 Proyecto grupo C de PSI, Grupo 07
 
 Consiste en un juego contra una inteligencia artificial, consiste en conquistar un campo de batalla trazado con hexágonos. El jugador tiene como objetivo obtener mas hexagonos en el mapa que el pc, pero tendrá que utilizar la extrategia mas adecuada, ya que el oponente podrá conquistar zonas que estubierán ya conquistadas.
@@ -32,7 +32,7 @@ Consiste en un juego contra una inteligencia artificial, consiste en conquistar 
 6. Cuando todo el campo de batalla se toma el jugador que tiene más hexágonos conquistados es el ganador
 
 
-## Referencias <span id ='references'/>
+## Referencias
 - [Android Developers](http://developer.android.com/index.html)
 - [Android Developer NanoDegree](https://www.udacity.com/course/android-developer-nanodegree--nd801)
 - [Programming Mobile Applications for Android Handheld Systems: Part 1](https://www.coursera.org/learn/android-programming)
