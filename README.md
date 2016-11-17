@@ -1,7 +1,7 @@
 # HexagonWars
 
 - [Descripción](#description)
-- [Reglas](#rules)
+- [Reglas](#Reglas)
 - [Referencias](#references)
 
 
@@ -17,7 +17,7 @@ Consiste en un juego contra una inteligencia artificial, consiste en conquistar 
 - Bruno Nogareda Da Cruz
 
 
-## Reglas <span id='rules'/>
+## Reglas
 1. Cada jugador tiene un turno y en el turno tiene que poner un token en el campo de batalla, este tiene que ser colocado en un hexágono en blanco
 
 2. En el primer turno, el token lo jugador, el token tiene la posibilidad de convertirse en un Super Token, si el jugador está perdiendo tiene mayores posibilidades.
