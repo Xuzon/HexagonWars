@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
     RelativeLayout layout;
-    public final static int SIZE = 150;
+    public static int SIZE = 150;
     public final static int HEXAGONS_PER_ROW = 7;
     public final static int ROWS = 9;
     public static HexagonView topPlayerScore;
@@ -33,6 +33,8 @@ public class GameActivity extends AppCompatActivity {
         this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         screenWidth = metrics.widthPixels;
         screenHeight = metrics.heightPixels;
+
+        SIZE = screenWidth/HEXAGONS_PER_ROW;
 
         //Calculo del centro del grid.
         gridYOffset = (int) ((screenHeight-((3f/4f)*SIZE*ROWS))/2);
@@ -70,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
         for(int i = 0; i < HEXAGONS_PER_ROW ; i++) {
             for(int j = 0; j < ROWS; j++) {
                 boolean notOdd = (j % 2 == 0) ? true : false;
-                int oddOffset = (notOdd) ? 0 : 75;
+                int oddOffset = (notOdd) ? 0 : ((screenWidth-(SIZE*(HEXAGONS_PER_ROW-1)))/2);
                 int arrayOffset = (notOdd) ? 0 : 1;
                 if(!notOdd && i == (HEXAGONS_PER_ROW - 1)){
                     continue;
