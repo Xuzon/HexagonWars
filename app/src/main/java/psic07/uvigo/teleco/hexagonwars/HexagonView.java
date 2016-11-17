@@ -25,12 +25,7 @@ public class HexagonView extends View implements View.OnClickListener{
         int r = random.nextInt(2);
         int color = (r == 0) ? hexagon.blueColor : hexagon.redColor;
         hexagon.centerColor = color;
-        /*Rect rect = new Rect();
-        rect.left = coords.x;
-        rect.right = coords.x + dim.x;
-        rect.top = coords.y;
-        rect.bottom = coords.y + dim.y;
-        this.setClipBounds(rect);*/
+        hexagon.dim = dim;
         hexagon.setBounds(dim.x / 2, dim.y / 2,dim.x,dim.y);
         this.setOnClickListener(this);
     }
@@ -38,6 +33,7 @@ public class HexagonView extends View implements View.OnClickListener{
     public void ConquerMe(){
         hexagon.centerColor = hexagon.centerColor == HexagonDrawable.blueColor ?
                 HexagonDrawable.redColor : HexagonDrawable.blueColor;
+        this.invalidate();
     }
 
     protected void onDraw(Canvas canvas) {
@@ -46,7 +42,7 @@ public class HexagonView extends View implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        System.out.println("HOLA DESDE (" + coords.x + "," + coords.y+ ")");
+        //just for be sure v has to be me but you'll never know XD
         if(v instanceof HexagonView){
             HexagonView hex = (HexagonView) v;
             hex.ConquerMe();
