@@ -13,9 +13,11 @@ import android.util.FloatMath;
 
 public class HexagonDrawable extends Drawable {
 
-    public int centerColor = 0xffff0000;
+    public int centerColor = 0x0;
     public static int blueColor = 0xff11D5F7;
     public static int redColor = 0xffF72A86;
+    public static final float FILL_PERCENTAGE = 0.9f;
+    public Vector2 dim;
     public static int transparent = 0x0;
     private Path hexagon = new Path();
     private Path centerHexagon = new Path();
@@ -63,23 +65,24 @@ public class HexagonDrawable extends Drawable {
     @Override
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
-        computeHex(bounds);
+        computeHex();
         invalidateSelf();
     }
 
-    public void computeHex(Rect bounds) {
+    public void computeHex() {
 
-        final int width = bounds.width();
-        final int height = bounds.height();
+        final int width = dim.x;
+        final int height = dim.y;
         final int size = Math.min(width, height);
-        final int centerX = bounds.left + (width / 2);
-        final int centerY = bounds.top + (height / 2);
+        //cneterX and Y is directly width / 2 and height / 2 because it is local canvas
+        final int centerX =  (width / 2);
+        final int centerY = (height / 2);
 
         hexagon.reset();
         hexagon.addPath(createHexagon(size, centerX, centerY));
-        hexagon.addPath(createHexagon((int) (size * .9f), centerX, centerY));
+        hexagon.addPath(createHexagon((int) (size * FILL_PERCENTAGE), centerX, centerY));
         centerHexagon.reset();
-        centerHexagon.addPath(createHexagon((int) (size * .9f), centerX, centerY));
+        centerHexagon.addPath(createHexagon((int) (size * FILL_PERCENTAGE), centerX, centerY));
         centerHexagon.addPath(createHexagon(0,centerX ,centerY));
     }
 

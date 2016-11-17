@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Size;
+import android.graphics.Rect;
 import android.view.View;
 import android.graphics.Typeface;
 
@@ -17,12 +18,17 @@ import java.util.Random;
 public class HexagonView extends View implements View.OnClickListener{
     public HexagonDrawable hexagon;
     Vector2 coords;
+    Vector2 dim;
     String score="";
+    public HexagonView(Context context,Vector2 coords, Vector2 dim) {
+
 
     public HexagonView(Context context,Vector2 coords, Vector2 dim, int color, String score) {
         super(context);
         this.coords = coords;
         this.score=score;
+        this.coords = coords;
+        this.dim = dim;
         hexagon = new HexagonDrawable(0xff00FF84);
         if(color==0) {
             Random random = new Random();
@@ -30,8 +36,15 @@ public class HexagonView extends View implements View.OnClickListener{
             color = (r == 0) ? hexagon.blueColor : ((r == 1) ? hexagon.redColor : hexagon.transparent);
          }
         hexagon.centerColor = color;
-        hexagon.setBounds(coords.x, coords.y, coords.x + dim.x, coords.y + dim.y);
+        hexagon.dim = dim;
+        hexagon.setBounds(dim.x / 2, dim.y / 2,dim.x,dim.y);
         this.setOnClickListener(this);
+    }
+
+    public void ConquerMe(){
+        hexagon.centerColor = hexagon.centerColor == HexagonDrawable.blueColor ?
+                HexagonDrawable.redColor : HexagonDrawable.blueColor;
+        this.invalidate();
     }
 
     protected void onDraw(Canvas canvas) {
@@ -47,13 +60,13 @@ public class HexagonView extends View implements View.OnClickListener{
         }
     }
 
-    public String debug(){
-        return "HOLA DESDE (" + coords.x + "," + coords.y+ ")";
-    }
 
     @Override
     public void onClick(View v) {
-        HexagonView hex = (HexagonView) v;
-        System.out.println(hex.debug());
+        //just for be sure v has to be me but you'll never know XD
+        if(v instanceof HexagonView){
+            HexagonView hex = (HexagonView) v;
+            hex.ConquerMe();
+        }
     }
 }
