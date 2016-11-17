@@ -17,7 +17,7 @@ Consiste en un juego contra una inteligencia artificial, consiste en conquistar 
 - Bruno Nogareda Da Cruz
 
 
-## Reglas <div id='rules'/>
+## Reglas <span id='rules'/>
 1. Cada jugador tiene un turno y en el turno tiene que poner un token en el campo de batalla, este tiene que ser colocado en un hexágono en blanco
 
 2. En el primer turno, el token lo jugador, el token tiene la posibilidad de convertirse en un Super Token, si el jugador está perdiendo tiene mayores posibilidades.
@@ -32,7 +32,7 @@ Consiste en un juego contra una inteligencia artificial, consiste en conquistar 
 6. Cuando todo el campo de batalla se toma el jugador que tiene más hexágonos conquistados es el ganador
 
 
-## Referencias <div id ='references'/>
+## Referencias <span id ='references'/>
 - [Android Developers](http://developer.android.com/index.html)
 - [Android Developer NanoDegree](https://www.udacity.com/course/android-developer-nanodegree--nd801)
 - [Programming Mobile Applications for Android Handheld Systems: Part 1](https://www.coursera.org/learn/android-programming)
