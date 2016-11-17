@@ -17,6 +17,7 @@ public class GameActivity extends AppCompatActivity {
     public static HexagonView topPlayerScore;
     public static HexagonView bottomPlayerScore;
     public static int gridYOffset = 400;
+    public static int gridXOffset = 0;
     public static int screenWidth = 0;
     public static int screenHeight = 0;
     public ArrayList<HexagonView> grid;
@@ -31,6 +32,7 @@ public class GameActivity extends AppCompatActivity {
 
         //Calculo del centro del grid.
         gridYOffset = (int) ((screenHeight-((3f/4f)*SIZE*ROWS))/2);
+        gridXOffset = (int) ((screenWidth-(SIZE*HEXAGONS_PER_ROW))/2);
 
         //Ocultar barra notificaciones Android
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -47,7 +49,7 @@ public class GameActivity extends AppCompatActivity {
     private void SetBackground() {
         ImageView background = new ImageView(this);
         background.setBackgroundResource(R.drawable.gameactivitybackground);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(1080, 1920);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screenWidth, screenHeight);
         params.leftMargin = 0;
         params.topMargin = 0;
         layout.addView(background,params);
@@ -68,7 +70,7 @@ public class GameActivity extends AppCompatActivity {
                 if(!notOdd && i == (HEXAGONS_PER_ROW - 1)){
                     continue;
                 }
-                Vector2 coords = new Vector2(oddOffset + i * xPos,gridYOffset + j * yPos);
+                Vector2 coords = new Vector2(gridXOffset + oddOffset + i * xPos,gridYOffset + j * yPos);
                 HexagonView hexagon = new HexagonView(this,coords,hexagonDimension);
                 toRet.add(hexagon);
             }
