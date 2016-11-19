@@ -97,7 +97,9 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_init);
         newgame=(Button)findViewById(R.id.new_game);
+        options=(Button)findViewById(R.id.options);
         newgame.setOnClickListener(this);
+        options.setOnClickListener(this);
         mVisible = true;
        // mControlsView = findViewById(R.id.fullscreen_content_controls);
         //mContentView = findViewById(R.id.fullscreen_content);
@@ -165,7 +167,17 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Intent game=new Intent(getApplicationContext(),GameActivity.class);
-        startActivity(game);
+        switch (view.getId())
+        {
+            case(R.id.new_game):
+                Intent game=new Intent(getApplicationContext(),GameActivity.class);
+                startActivity(game);
+                break;
+            case(R.id.options):
+                Intent opciones=new Intent(getApplicationContext(),OptionsActivity.class);
+                startActivity(opciones);
+                break;
+        }
+
     }
 }
