@@ -2,49 +2,117 @@ package psic07.uvigo.teleco.hexagonwars;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.view.WindowManager;
+import android.util.DisplayMetrics;
 
 import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
-    FrameLayout frameLayout;
-    public final static int SIZE = 150;
+    RelativeLayout layout;
+    public static int SIZE = 150;
     public final static int HEXAGONS_PER_ROW = 7;
     public final static int ROWS = 9;
-    public final static int yOffset = 200;
+    public static HexagonView topPlayerScore;
+    public static HexagonView bottomPlayerScore;
+    public static int topPlayerColor = HexagonDrawable.blueColor;       //Color del jugador top
+    public static int bottomPlayerColor = HexagonDrawable.redColor;     //Color del jugador bottom
+    public static int gridYOffset = 400;
+    public static int gridXOffset = 0;
+    public static int screenWidth = 0;
+    public static int screenHeight = 0;
     public ArrayList<HexagonView> grid;
+    public static HexagonView[][] gridList = new HexagonView[SIZE*2][SIZE];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Obtenemos las medidas en píxeles de la pantalla
+        DisplayMetrics metrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screenWidth = metrics.widthPixels;
+        screenHeight = metrics.heightPixels;
+
+        SIZE = screenWidth/HEXAGONS_PER_ROW;
+
+        //Calculo del centro del grid.
+        gridYOffset = (int) ((screenHeight-((3f/4f)*SIZE*ROWS))/2);
+        gridXOffset = (int) ((screenWidth-(SIZE*HEXAGONS_PER_ROW))/2);
+
+        //Ocultar barra notificaciones Android
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
-        frameLayout = new FrameLayout(this);
+        layout = new RelativeLayout(this);
+        SetBackground();
         grid = CreateGrid();
         ShowGrid();
-        setContentView(frameLayout);
+        addScore();
+        setContentView(layout);
     }
 
+    private void SetBackground() {
+        ImageView background = new ImageView(this);
+        background.setBackgroundResource(R.drawable.gamebackground);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screenWidth, screenHeight);
+        params.leftMargin = 0;
+        params.topMargin = 0;
+        layout.addView(background,params);
+    }
 
     private ArrayList<HexagonView> CreateGrid() {
         ArrayList<HexagonView> toRet = new ArrayList<HexagonView>();
         Vector2 hexagonDimension = new Vector2(SIZE,SIZE);
+        //float xSizeMultiplier = 1f - (1f - HexagonDrawable.FILL_PERCENTAGE );
+        float xSizeMultiplier = 1;
+        float ySizeMultiplier = 3f / 4f;
+        int xPos = (int) (SIZE * xSizeMultiplier);
+        int yPos = (int) (SIZE * ySizeMultiplier);
         for(int i = 0; i < HEXAGONS_PER_ROW ; i++) {
             for(int j = 0; j < ROWS; j++) {
                 boolean notOdd = (j % 2 == 0) ? true : false;
-                int offset = (notOdd) ? 0 : 75;
+                int oddOffset = (notOdd) ? 0 : ((screenWidth-(SIZE*(HEXAGONS_PER_ROW-1)))/2);
+                int arrayOffset = (notOdd) ? 0 : 1;
                 if(!notOdd && i == (HEXAGONS_PER_ROW - 1)){
                     continue;
                 }
-                Vector2 coords = new Vector2(i * SIZE + offset,yOffset + j*(SIZE / 4) * 3);
-                HexagonView hexagon = new HexagonView(this,coords,hexagonDimension);
+                Vector2 coords = new Vector2(gridXOffset + oddOffset + i * xPos,gridYOffset + j * yPos);
+                HexagonView hexagon = new HexagonView(this,coords,hexagonDimension, i*2+arrayOffset, j);
                 toRet.add(hexagon);
             }
         }
         return toRet;
     }
 
+    private void addScore() {
+        int offsetx = (screenWidth-SIZE)/2;
+        int offsetyH1 = 100;
+        int offsetyH2 = screenHeight-SIZE-100;
+        Vector2 hexagonDimension = new Vector2(SIZE,SIZE);
+        Vector2 coords = new Vector2(offsetx, offsetyH1);
+        topPlayerScore = new HexagonView(this,coords,hexagonDimension, topPlayerColor, true);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(SIZE,SIZE);
+        params.leftMargin = offsetx;
+        params.topMargin = offsetyH1;
+        layout.addView(topPlayerScore,params);
+
+        hexagonDimension = new Vector2(SIZE,SIZE);
+        coords = new Vector2(offsetx, offsetyH2);
+        bottomPlayerScore = new HexagonView(this,coords,hexagonDimension, bottomPlayerColor, true);
+        params = new RelativeLayout.LayoutParams(SIZE,SIZE);
+        params.leftMargin = offsetx;
+        params.topMargin = offsetyH2;
+        layout.addView(bottomPlayerScore,params);
+
+    }
+
     private void ShowGrid(){
         for(HexagonView hexagon : grid){
-            frameLayout.addView(hexagon);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(hexagon.dim.x, hexagon.dim.y);
+            params.leftMargin = hexagon.coords.x;
+            params.topMargin = hexagon.coords.y;
+            layout.addView(hexagon,params);
         }
     }
 }
