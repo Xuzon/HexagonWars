@@ -24,15 +24,6 @@
         android:id="@+id/version" />
 
     <TextView
-        android:text="About"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/about" />
-
-    <TextView
         android:text="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,15 +53,6 @@
         android:layout_above="@+id/version"
         android:layout_alignStart="@+id/ganadas"
         android:layout_marginBottom="22dp" />
-
-    <TextView
-        android:text="Ganadas  -  Perdidas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:id="@+id/ganadas"
-        android:layout_above="@+id/wins"
-        android:layout_centerHorizontal="true" />
 
     <TextView
         android:text="Partidas"
@@ -119,6 +101,24 @@
         android:backgroundTint="@color/colorPrimaryDark"
         android:layout_above="@+id/options"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Ganadas  -  Perdidas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/ganadas"
+        android:layout_above="@+id/lose"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="About"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/about"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
