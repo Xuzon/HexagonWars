@@ -16,9 +16,10 @@ public class HexagonDrawable extends Drawable {
     public int centerColor = 0x0;
     public static int blueColor = 0xff11D5F7;
     public static int redColor = 0xffF72A86;
+    public static int transparent = 0x0;
+    public static int defaultBorderColor = 0xFF00FF84;
     public static final float FILL_PERCENTAGE = 0.9f;
     public Vector2 dim;
-    public static int transparent = 0x0;
     private Path hexagon = new Path();
     private Path centerHexagon = new Path();
     private Path temporal = new Path();
@@ -84,6 +85,10 @@ public class HexagonDrawable extends Drawable {
         centerHexagon.reset();
         centerHexagon.addPath(createHexagon((int) (size * FILL_PERCENTAGE), centerX, centerY));
         centerHexagon.addPath(createHexagon(0,centerX ,centerY));
+    }
+
+    public void setBorderColor(int Color) {
+        paint.setColor(Color);
     }
 
     private Path createHexagon(int size, int centerX, int centerY) {

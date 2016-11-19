@@ -22,8 +22,7 @@ public class GameActivity extends AppCompatActivity {
     public static int gridXOffset = 0;
     public static int screenWidth = 0;
     public static int screenHeight = 0;
-    public ArrayList<HexagonView> grid;
-    public static HexagonView[][] gridList = new HexagonView[SIZE*2][SIZE];
+    public static ArrayList<HexagonView> grid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +68,15 @@ public class GameActivity extends AppCompatActivity {
         float ySizeMultiplier = 3f / 4f;
         int xPos = (int) (SIZE * xSizeMultiplier);
         int yPos = (int) (SIZE * ySizeMultiplier);
-        for(int i = 0; i < HEXAGONS_PER_ROW ; i++) {
-            for(int j = 0; j < ROWS; j++) {
-                boolean notOdd = (j % 2 == 0) ? true : false;
+            for(int i = 0; i < ROWS; i++) {
+                for(int j = 0; j < HEXAGONS_PER_ROW ; j++) {
+                    boolean notOdd = (i % 2 == 0) ? true : false;
                 int oddOffset = (notOdd) ? 0 : ((screenWidth-(SIZE*(HEXAGONS_PER_ROW-1)))/2);
-                int arrayOffset = (notOdd) ? 0 : 1;
-                if(!notOdd && i == (HEXAGONS_PER_ROW - 1)){
+                if(!notOdd && j == (HEXAGONS_PER_ROW - 1)){
                     continue;
                 }
-                Vector2 coords = new Vector2(gridXOffset + oddOffset + i * xPos,gridYOffset + j * yPos);
-                HexagonView hexagon = new HexagonView(this,coords,hexagonDimension, i*2+arrayOffset, j);
+                Vector2 coords = new Vector2(gridXOffset + oddOffset + j * xPos,gridYOffset + i * yPos);
+                HexagonView hexagon = new HexagonView(this,coords,hexagonDimension, j, i, toRet.size());
                 toRet.add(hexagon);
             }
         }
@@ -104,7 +102,6 @@ public class GameActivity extends AppCompatActivity {
         params.leftMargin = offsetx;
         params.topMargin = offsetyH2;
         layout.addView(bottomPlayerScore,params);
-
     }
 
     private void ShowGrid(){
