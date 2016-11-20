@@ -12,12 +12,21 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.LinkedList;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class InitActivity extends AppCompatActivity implements View.OnClickListener {
+    public static int topPlayerColor = HexagonDrawable.blueColor;       //Color del jugador top
+    public static int bottomPlayerColor = HexagonDrawable.redColor;     //Color del jugador bottom
     Button newgame,options,rules;
+    public static LinkedList<Integer> colors = new LinkedList<Integer>();
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -92,8 +101,15 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//Remove notification bar
+
+        //Remove notification bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //Añadimos los colores a una lista.
+        colors.add(0xff11D5F7);  //Color Blue
+        colors.add(0xffF72A86);  //Color red
+        colors.add(0xffF2A286); //Color carne
+        colors.add(0xff007A04); //Color Green
 
         setContentView(R.layout.activity_init);
         newgame=(Button)findViewById(R.id.new_game);
@@ -178,6 +194,5 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(opciones);
                 break;
         }
-
     }
 }

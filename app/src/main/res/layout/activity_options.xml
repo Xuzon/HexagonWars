@@ -110,7 +110,7 @@
         android:textColor="@color/colorPrimary"
         android:layout_alignBaseline="@+id/maquina"
         android:layout_alignBottom="@+id/maquina"
-        android:layout_toEndOf="@+id/maquina" />
+        android:layout_toEndOf="@+id/maquina"/>
 
     <Button
         android:text="-"
@@ -151,7 +151,7 @@
         android:layout_height="40dp"
         android:layout_alignTop="@+id/p_c_left"
         android:layout_alignEnd="@+id/m_c_right"
-        android:id="@+id/button8"
+        android:id="@+id/p_c_right"
         android:background="@null"
         android:textColor="@color/colorPrimary" />
 

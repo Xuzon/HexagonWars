@@ -11,6 +11,9 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.FloatMath;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HexagonDrawable extends Drawable {
 
     public int centerColor = 0x0;

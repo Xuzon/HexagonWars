@@ -7,6 +7,7 @@
 
 ## Descripción
 Proyecto grupo C de PSI, Grupo 07
+Wiki del proyecto: [Wikispaces](http://uvigotelecopsicg07.wikispaces.com/)
 
 Consiste en un juego contra una inteligencia artificial, consiste en conquistar un campo de batalla trazado con hexágonos. El jugador tiene como objetivo obtener mas hexagonos en el mapa que el pc, pero tendrá que utilizar la extrategia mas adecuada, ya que el oponente podrá conquistar zonas que estubierán ya conquistadas.
 

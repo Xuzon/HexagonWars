@@ -32,8 +32,8 @@ public class HexagonView extends View implements View.OnClickListener{
 
     public HexagonView(Context context,Vector2 coords, Vector2 dim, int posX, int posY, int posArray) {
         super(context);
-        turnColor = GameActivity.bottomPlayerColor;
-        noturnColor = GameActivity.topPlayerColor;
+        turnColor = InitActivity.bottomPlayerColor;
+        noturnColor = InitActivity.topPlayerColor;
         this.coords = coords;
         this.dim = dim;
         this.posX = posX;
@@ -224,11 +224,11 @@ public class HexagonView extends View implements View.OnClickListener{
      * @param conquer Si es conquiestado se resta la puntuación al oponente
      */
     public void scoreUpdate(boolean conquer) {
-        if (turnColor == GameActivity.bottomPlayerColor) {
+        if (turnColor == InitActivity.bottomPlayerColor) {
             GameActivity.bottomPlayerScore.score++;
             if(conquer) GameActivity.topPlayerScore.score--;
             else {
-                turnColor = GameActivity.topPlayerColor;
+                turnColor = InitActivity.topPlayerColor;
 
                 //Instrucciones temporales, son para saber visualmente a quien pertenece el turno
                 GameActivity.topPlayerScore.hexagon.setBorderColor(Color.WHITE);
@@ -241,7 +241,7 @@ public class HexagonView extends View implements View.OnClickListener{
             GameActivity.topPlayerScore.score++;
             if(conquer) GameActivity.bottomPlayerScore.score--;
             else {
-                turnColor = GameActivity.bottomPlayerColor;
+                turnColor = InitActivity.bottomPlayerColor;
 
                 //Instrucciones temporales, son para saber visualmente a quien pertenece el turno
                 GameActivity.bottomPlayerScore.hexagon.setBorderColor(Color.WHITE);

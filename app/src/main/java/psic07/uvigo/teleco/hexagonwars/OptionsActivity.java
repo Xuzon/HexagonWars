@@ -1,14 +1,19 @@
 package psic07.uvigo.teleco.hexagonwars;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
-public class OptionsActivity extends AppCompatActivity {
+public class OptionsActivity extends AppCompatActivity implements View.OnClickListener {
     RelativeLayout layout;
     HexagonView playerHexagon;
     HexagonView pcHexagon;
+    Button m_c_left, m_c_right, p_c_left, p_c_right;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,38 +23,87 @@ public class OptionsActivity extends AppCompatActivity {
         //Ocultar barra notificaciones Android
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        View v = LayoutInflater.from(this).inflate(R.layout.activity_options, layout, true);
 
-//        RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//        addSelectColorHexagon();
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(500,500);
-//        addView(R.layout.activity_options, param);
-//        layout.addView(findViewById(R.layout.activity_options));
-        setContentView(R.layout.activity_options);
+        addSelectColorHexagon();
 
-
+        setContentView(layout);
+        m_c_left=(Button)findViewById(R.id.m_c_left);
+        m_c_right=(Button)findViewById(R.id.m_c_right);
+        p_c_left=(Button)findViewById(R.id.p_c_left);
+        p_c_right=(Button)findViewById(R.id.p_c_right);
+        m_c_left.setOnClickListener(this);
+        m_c_right.setOnClickListener(this);
+        p_c_left.setOnClickListener(this);
+        p_c_right.setOnClickListener(this);
     }
 
 
     private void addSelectColorHexagon() {
 
-        /*int offsetx = (screenWidth-SIZE)/2;
-        int offsetyH1 = 100;
-        int offsetyH2 = screenHeight-SIZE-100;*/
+        int marginLeft = 640;
+        int marginTop = 635;
+
         Vector2 hexagonDimension = new Vector2(GameActivity.SIZE,GameActivity.SIZE);
-        Vector2 coords = new Vector2(100, 100);
-        playerHexagon = new HexagonView(this,coords,hexagonDimension, GameActivity.bottomPlayerColor, false);
+        Vector2 coords = new Vector2(0, 0);
+        playerHexagon = new HexagonView(this,coords,hexagonDimension, InitActivity.bottomPlayerColor, false);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(GameActivity.SIZE,GameActivity.SIZE);
-        params.leftMargin = 100;
-        params.topMargin = 1000;
+        params.leftMargin = marginLeft;
+        params.topMargin = marginTop;
         layout.addView(playerHexagon,params);
 
-//        hexagonDimension = new Vector2(GameActivity.SIZE,GameActivity.SIZE);
-//        coords = new Vector2(100, 200);
-//        pcHexagon = new HexagonView(this,coords,hexagonDimension, 0xffffffff, true);
-//        params = new RelativeLayout.LayoutParams(GameActivity.SIZE,GameActivity.SIZE);
-//        params.leftMargin = 0;
-//        params.topMargin = 0;
-//        layout.addView(pcHexagon,params);
+        hexagonDimension = new Vector2(GameActivity.SIZE,GameActivity.SIZE);
+        coords = new Vector2(0, 0);
+        pcHexagon = new HexagonView(this,coords,hexagonDimension, InitActivity.topPlayerColor, false);
+        params = new RelativeLayout.LayoutParams(GameActivity.SIZE,GameActivity.SIZE);
+        params.leftMargin = marginLeft;
+        params.topMargin = marginTop+200;
+        layout.addView(pcHexagon,params);
     }
 
+
+    @Override
+    public void onClick(View view) {
+        int index;
+        switch (view.getId())
+        {
+            //Change color bottons.
+            case(R.id.m_c_left):
+                index = InitActivity.colors.indexOf(pcHexagon.hexagon.centerColor);
+                if(index-1<0) index=InitActivity.colors.size();
+                if(playerHexagon.hexagon.centerColor == InitActivity.colors.get(index-1)) index=index-1;
+                if(index-1<0) index=InitActivity.colors.size();
+                InitActivity.topPlayerColor = InitActivity.colors.get(index-1);
+                pcHexagon.hexagon.centerColor = InitActivity.colors.get(index-1);
+                pcHexagon.invalidate();
+                break;
+            case(R.id.m_c_right):
+                index = InitActivity.colors.indexOf(pcHexagon.hexagon.centerColor);
+                if(index+1>=InitActivity.colors.size()) index=-1;
+                if(playerHexagon.hexagon.centerColor == InitActivity.colors.get(index+1)) index=index+1;
+                if(index+1>=InitActivity.colors.size()) index=-1;
+                InitActivity.topPlayerColor = InitActivity.colors.get(index+1);
+                pcHexagon.hexagon.centerColor = InitActivity.colors.get(index+1);
+                pcHexagon.invalidate();
+                break;
+            case(R.id.p_c_left):
+                index = InitActivity.colors.indexOf(playerHexagon.hexagon.centerColor);
+                if(index-1<0) index=InitActivity.colors.size();
+                if(pcHexagon.hexagon.centerColor == InitActivity.colors.get(index-1)) index=index-1;
+                if(index-1<0) index=InitActivity.colors.size();
+                InitActivity.bottomPlayerColor = InitActivity.colors.get(index-1);
+                playerHexagon.hexagon.centerColor = InitActivity.colors.get(index-1);
+                playerHexagon.invalidate();
+                break;
+            case(R.id.p_c_right):
+                index = InitActivity.colors.indexOf(playerHexagon.hexagon.centerColor);
+                if(index+1>=InitActivity.colors.size()) index=-1;
+                if(pcHexagon.hexagon.centerColor == InitActivity.colors.get(index+1)) index=index+1;
+                if(index+1>=InitActivity.colors.size()) index=-1;
+                InitActivity.bottomPlayerColor = InitActivity.colors.get(index+1);
+                playerHexagon.hexagon.centerColor = InitActivity.colors.get(index+1);
+                playerHexagon.invalidate();
+                break;
+        }
+    }
 }
