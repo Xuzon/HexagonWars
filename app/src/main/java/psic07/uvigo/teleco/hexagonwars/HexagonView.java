@@ -9,7 +9,8 @@ import android.util.Size;
 import android.graphics.Rect;
 import android.view.View;
 import android.graphics.Typeface;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import java.util.Random;
 
 /**
@@ -52,11 +53,6 @@ public class HexagonView extends View implements View.OnClickListener{
 
     private void SetupHexagonDrawable(Vector2 dim, int color) {
         hexagon = new HexagonDrawable(HexagonDrawable.defaultBorderColor);
-        /*if(color==0) {
-            Random random = new Random();
-            int r = random.nextInt(3);
-            color = (r == 0) ? hexagon.blueColor : ((r == 1) ? hexagon.redColor : hexagon.transparent);
-         }*/
         hexagon.centerColor = color;
         hexagon.dim = dim;
         hexagon.setBounds(dim.x / 2, dim.y / 2,dim.x,dim.y);
@@ -68,35 +64,13 @@ public class HexagonView extends View implements View.OnClickListener{
 
     public void ConquerMe(){
         if(hexagon.centerColor==HexagonDrawable.transparent) {
-            hexagon.centerColor = turnColor;
-            testConquer();
+            hexagon.centerColor = turnColor;    //Cambiamos el color del hexágono actual
+            testConquer();  //Comprobamos si tenemos que conquistar algún hexágono
             noturnColor=turnColor;
-            if(turnColor == HexagonDrawable.blueColor) {
-                turnColor = HexagonDrawable.redColor;
-
-                //Instrucciones temporales, son para saber visualmente a quien pertenece el turno
-                GameActivity.bottomPlayerScore.hexagon.setBorderColor(Color.WHITE);
-                GameActivity.topPlayerScore.hexagon.setBorderColor(HexagonDrawable.defaultBorderColor);
-                GameActivity.bottomPlayerScore.invalidate();
-                //Fin instrucciones temporales
-
-                GameActivity.topPlayerScore.score++;
-                GameActivity.topPlayerScore.invalidate();
-            }
-            else {
-                turnColor = HexagonDrawable.blueColor;
-
-                //Instrucciones temporales, son para saber visualmente a quien pertenece el turno
-                GameActivity.topPlayerScore.hexagon.setBorderColor(Color.WHITE);
-                GameActivity.bottomPlayerScore.hexagon.setBorderColor(HexagonDrawable.defaultBorderColor);
-                GameActivity.topPlayerScore.invalidate();
-                //Fin instrucciones temporales
-
-                GameActivity.bottomPlayerScore.score++;
-                GameActivity.bottomPlayerScore.invalidate();
-            }
+            scoreUpdate(false); //Actualizamos la puntuación, pero no hay que restar la del oponente
             this.invalidate();
         }
+
     }
 
     protected void onDraw(Canvas canvas) {
@@ -123,6 +97,10 @@ public class HexagonView extends View implements View.OnClickListener{
         }
     }
 
+    /**
+     * Comprueba si el hexágono es conquistable, recorre todos los hexagonos vecinos y si hay mas del color contrario
+     * que del propio, este es conquistado. Debe estar rodeado por mas de un hexágono del oponente.
+     */
     public void testConquerArround() {
         int hpr = GameActivity.HEXAGONS_PER_ROW;
         int gridSize = GameActivity.grid.size();
@@ -175,18 +153,22 @@ public class HexagonView extends View implements View.OnClickListener{
             numArroundNoTurn += (GameActivity.grid.get(posArray + hpr).hexagon.centerColor == noturnColor) ? 1 : 0;
         }
 
-
+        //Debe estar rodeado por más de un hexágono del oponente para poder ser conquistado.
         if(numArroundNoTurn==0 && numArroundTurn==1)
             return;
 
         //Si hay mas hexagonos del color del turno que del que no tiene el turno, conquistamos.
         if(numArroundTurn > numArroundNoTurn) {
-            this.hexagon.centerColor = turnColor;
-            this.testConquer();;
+            this.hexagon.centerColor = turnColor;   //Se conquista el hexágono cambiandole el color.
+            this.testConquer(); //Volvemos a comprobar si conquistamos cualquier hexágono (Reiterativamente)
             this.invalidate();
+            scoreUpdate(true);  //Actualizamos la puntucación
         }
-    }
+    }//testConquerArround
 
+    /**
+     * Comprobamos si conquistamos algún hexagono
+     */
     public void testConquer() {
 
 
@@ -230,9 +212,69 @@ public class HexagonView extends View implements View.OnClickListener{
             GameActivity.grid.get(posArray + hpr).testConquerArround();
         }*/
 
+        //Comprobamos todos los hexágonos del array.
         for(HexagonView hex : GameActivity.grid)
          {
              hex.testConquerArround();
          }
+    }
+
+    /**
+     * Actualizamos la puntuación. Y si es necesario cambiamos el turno.
+     * @param conquer Si es conquiestado se resta la puntuación al oponente
+     */
+    public void scoreUpdate(boolean conquer) {
+        if (turnColor == GameActivity.bottomPlayerColor) {
+            GameActivity.bottomPlayerScore.score++;
+            if(conquer) GameActivity.topPlayerScore.score--;
+            else {
+                turnColor = GameActivity.topPlayerColor;
+
+                //Instrucciones temporales, son para saber visualmente a quien pertenece el turno
+                GameActivity.topPlayerScore.hexagon.setBorderColor(Color.WHITE);
+                GameActivity.bottomPlayerScore.hexagon.setBorderColor(HexagonDrawable.defaultBorderColor);
+                //Fin instrucciones temporales
+            }
+
+
+        } else {
+            GameActivity.topPlayerScore.score++;
+            if(conquer) GameActivity.bottomPlayerScore.score--;
+            else {
+                turnColor = GameActivity.bottomPlayerColor;
+
+                //Instrucciones temporales, son para saber visualmente a quien pertenece el turno
+                GameActivity.bottomPlayerScore.hexagon.setBorderColor(Color.WHITE);
+                GameActivity.topPlayerScore.hexagon.setBorderColor(HexagonDrawable.defaultBorderColor);
+                //Fin instrucciones temporales
+            }
+        }
+
+        GameActivity.topPlayerScore.invalidate();
+        GameActivity.bottomPlayerScore.invalidate();
+
+        //Comprobamos si se han cubierto todos los hexágonos y en ese caso quién sería el ganador.
+        if((GameActivity.bottomPlayerScore.score + GameActivity.topPlayerScore.score) == GameActivity.grid.size()) {
+            if(GameActivity.bottomPlayerScore.score > GameActivity.topPlayerScore.score) {
+                alert("Finish", "The BOTTOM player WIN the game. Congratulations!!!!!");
+            }
+            if(GameActivity.bottomPlayerScore.score < GameActivity.topPlayerScore.score) {
+                alert("Finish", "The TOP player WIN the game. Congratulations!!!!!");
+            }
+        }
+    }
+
+    //Muestra un alert en la pantalla (Temporal, es posible mejorarlo.)
+    public void alert(String title, String msg) {
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(msg);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }
