@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +31,8 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     public static int topPlayerColor = HexagonDrawable.blueColor;       //Color del jugador top
     public static int bottomPlayerColor = HexagonDrawable.redColor;     //Color del jugador bottom
     Button newgame,options,rules;
-    TextView about;
+    String marcador,ganado,perdido;
+    TextView about,wins,loses;
     public static LinkedList<Integer> colors = new LinkedList<Integer>();
 
     /**
@@ -121,11 +124,28 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
         options=(Button)findViewById(R.id.options);
         rules=(Button)findViewById(R.id.rules);
         about=(TextView)findViewById(R.id.about);
+        wins=(TextView)findViewById(R.id.wins);
+        loses=(TextView)findViewById(R.id.lose);
         newgame.setOnClickListener(this);
         options.setOnClickListener(this);
         rules.setOnClickListener(this);
         about.setOnClickListener(this);
         mVisible = true;
+
+        //Lectura del fichero para el marcador
+        try
+        {
+            BufferedReader buff=new BufferedReader(new InputStreamReader(openFileInput("score.txt")));
+            ganado=buff.readLine();
+            wins.setText(ganado);
+            perdido=buff.readLine();
+            loses.setText(perdido);
+        }
+        catch (Exception e)
+        {
+            wins.setText("0");
+            loses.setText("0");
+        }
        // mControlsView = findViewById(R.id.fullscreen_content_controls);
         //mContentView = findViewById(R.id.fullscreen_content);
         // Set up the user interaction to manually show or hide the system UI.
@@ -213,7 +233,6 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void alert(String title, String msg) {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        //AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(msg);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
