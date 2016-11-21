@@ -15,7 +15,7 @@
 
 
     <TextView
-        android:text="Version: 1.0"
+        android:text="@string/version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -25,6 +25,7 @@
 
     <TextView
         android:text="0"
+        android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/wins"
@@ -36,10 +37,11 @@
         android:text="Hexagon Wars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/titulo"
+        android:id="@+id/HexagonWars"
         android:textColor="@color/colorPrimary"
         android:textAlignment="center"
         android:textSize="40dp"
+        android:layout_marginTop="14dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
@@ -48,14 +50,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
         android:paddingLeft="10dp"
         android:id="@+id/wins"
         android:layout_above="@+id/version"
-        android:layout_alignStart="@+id/ganadas"
-        android:layout_marginBottom="22dp" />
+        android:layout_marginBottom="22dp"
+        android:layout_alignStart="@+id/ganadas" />
 
     <TextView
-        android:text="Partidas"
+        android:text="Games"
+        android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimary"
@@ -63,47 +67,9 @@
         android:layout_above="@+id/ganadas"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:text="Rules"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rules"
-        android:textColor="@color/colorPrimary"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:layout_above="@+id/partidas"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="Options"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/options"
-        android:textColor="@color/colorPrimary"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:layout_above="@+id/rules"
-        android:layout_alignParentStart="true" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/hexagon"
-        android:id="@+id/imageView5"
-        android:layout_marginBottom="32dp"
-        android:layout_above="@+id/rules"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="New Game"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/new_game"
-        android:textColor="@color/colorPrimary"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:layout_above="@+id/options"
-        android:layout_alignParentStart="true" />
-
     <TextView
-        android:text="Ganadas  -  Perdidas"
+        android:text="Wins  -  Loses"
+        android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimary"
@@ -119,6 +85,48 @@
         android:id="@+id/about"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="New Game"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_game"
+        android:textColor="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_above="@+id/options"
+        android:layout_alignParentStart="true"
+         />
+
+    <Button
+        android:text="Options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/options"
+        android:textColor="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_above="@+id/rules"
+        android:layout_alignParentStart="true"
+         />
+
+    <Button
+        android:text="Rules"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rules"
+        android:textColor="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_above="@+id/partidas"
+        android:layout_alignParentStart="true"
+         />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/hexagon"
+        android:id="@+id/hexagonos"
+        android:layout_marginBottom="33dp"
+        android:layout_above="@+id/rules"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

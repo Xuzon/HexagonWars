@@ -1,6 +1,8 @@
 package psic07.uvigo.teleco.hexagonwars;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +29,7 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     public static int topPlayerColor = HexagonDrawable.blueColor;       //Color del jugador top
     public static int bottomPlayerColor = HexagonDrawable.redColor;     //Color del jugador bottom
     Button newgame,options,rules;
+    TextView about;
     public static LinkedList<Integer> colors = new LinkedList<Integer>();
 
     /**
@@ -114,8 +119,12 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_init);
         newgame=(Button)findViewById(R.id.new_game);
         options=(Button)findViewById(R.id.options);
+        rules=(Button)findViewById(R.id.rules);
+        about=(TextView)findViewById(R.id.about);
         newgame.setOnClickListener(this);
         options.setOnClickListener(this);
+        rules.setOnClickListener(this);
+        about.setOnClickListener(this);
         mVisible = true;
        // mControlsView = findViewById(R.id.fullscreen_content_controls);
         //mContentView = findViewById(R.id.fullscreen_content);
@@ -193,6 +202,26 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
                 Intent opciones=new Intent(getApplicationContext(),OptionsActivity.class);
                 startActivity(opciones);
                 break;
+            case(R.id.rules):
+                Intent normas=new Intent(getApplicationContext(),RulesActivity.class);
+                startActivity(normas);
+                break;
+            case(R.id.about):
+                alert("Developers","PSIC07:\n-Daniel Garrido Súarez\n-Waheed Muhammad Mughal\n-Bruno Nogareda Da Cruz\n-Guillermo Rodríguez Agrasar");
+                break;
         }
+    }
+    public void alert(String title, String msg) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        //AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(msg);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }
