@@ -18,24 +18,14 @@ public class GameActivity extends AppCompatActivity {
     public static HexagonView bottomPlayerScore;
     public static int gridYOffset = 400;
     public static int gridXOffset = 0;
-    public static int screenWidth = 0;
-    public static int screenHeight = 0;
     public static ArrayList<HexagonView> grid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //Obtenemos las medidas en píxeles de la pantalla
-        DisplayMetrics metrics = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        screenWidth = metrics.widthPixels;
-        screenHeight = metrics.heightPixels;
-
-        SIZE = screenWidth/HEXAGONS_PER_ROW;
-
         //Calculo del centro del grid.
-        gridYOffset = (int) ((screenHeight-((3f/4f)*SIZE*ROWS))/2);
-        gridXOffset = (int) ((screenWidth-(SIZE*HEXAGONS_PER_ROW))/2);
+        gridYOffset = (int) ((InitActivity.screenHeight-((3f/4f)*SIZE*ROWS))/2);
+        gridXOffset = (int) ((InitActivity.screenWidth-(SIZE*HEXAGONS_PER_ROW))/2);
 
         //Ocultar barra notificaciones Android
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -52,7 +42,7 @@ public class GameActivity extends AppCompatActivity {
     private void SetBackground() {
         ImageView background = new ImageView(this);
         background.setBackgroundResource(R.drawable.gamebackground);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screenWidth, screenHeight);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(InitActivity.screenWidth, InitActivity.screenHeight);
         params.leftMargin = 0;
         params.topMargin = 0;
         layout.addView(background,params);
@@ -69,7 +59,7 @@ public class GameActivity extends AppCompatActivity {
             for(int i = 0; i < ROWS; i++) {
                 for(int j = 0; j < HEXAGONS_PER_ROW ; j++) {
                     boolean notOdd = (i % 2 == 0) ? true : false;
-                int oddOffset = (notOdd) ? 0 : ((screenWidth-(SIZE*(HEXAGONS_PER_ROW-1)))/2);
+                int oddOffset = (notOdd) ? 0 : ((InitActivity.screenWidth-(SIZE*(HEXAGONS_PER_ROW-1)))/2);
                 if(!notOdd && j == (HEXAGONS_PER_ROW - 1)){
                     continue;
                 }
@@ -82,9 +72,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void addScore() {
-        int offsetx = (screenWidth-SIZE)/2;
+        int offsetx = (InitActivity.screenWidth-SIZE)/2;
         int offsetyH1 = 100;
-        int offsetyH2 = screenHeight-SIZE-100;
+        int offsetyH2 = InitActivity.screenHeight-SIZE-100;
         Vector2 hexagonDimension = new Vector2(SIZE,SIZE);
         Vector2 coords = new Vector2(offsetx, offsetyH1);
         topPlayerScore = new HexagonView(this,coords,hexagonDimension, InitActivity.topPlayerColor, true);

@@ -156,18 +156,6 @@
         android:textColor="@color/colorPrimary" />
 
     <TextView
-        android:text="Hexagon Wars"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/HexagonWars"
-        android:textColor="@color/colorPrimary"
-        android:textAlignment="center"
-        android:textSize="40dp"
-        android:layout_marginTop="14dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
         android:text="Sonido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -178,6 +166,17 @@
         android:background="@color/colorPrimaryDark"
         android:layout_alignTop="@+id/s"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Hexagon Wars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/HexagonWars"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

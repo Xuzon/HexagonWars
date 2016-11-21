@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -33,6 +34,9 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     Button newgame,options,rules;
     String marcador,ganado,perdido;
     TextView about,wins,loses;
+    public static int screenWidth = 0;
+    public static int screenHeight = 0;
+
     public static LinkedList<Integer> colors = new LinkedList<Integer>();
 
     /**
@@ -118,6 +122,14 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
         colors.add(0xffF72A86);  //Color red
         colors.add(0xffF2A286); //Color carne
         colors.add(0xff007A04); //Color Green
+
+        //Obtenemos las medidas en píxeles de la pantalla
+        DisplayMetrics metrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screenWidth = metrics.widthPixels;
+        screenHeight = metrics.heightPixels;
+
+        GameActivity.SIZE = screenWidth/GameActivity.HEXAGONS_PER_ROW;
 
         setContentView(R.layout.activity_init);
         newgame=(Button)findViewById(R.id.new_game);
@@ -227,7 +239,7 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(normas);
                 break;
             case(R.id.about):
-                alert("Developers","PSIC07:\n-Daniel Garrido Súarez\n-Waheed Muhammad Mughal\n-Bruno Nogareda Da Cruz\n-Guillermo Rodríguez Agrasar");
+                alert("Developers","PSIC07:\n- Daniel Garrido Súarez\n- Waheed Muhammad Mughal\n- Bruno Nogareda Da Cruz\n- Guillermo Rodríguez Agrasar");
                 break;
         }
     }

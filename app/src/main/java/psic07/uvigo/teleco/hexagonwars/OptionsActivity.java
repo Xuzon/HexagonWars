@@ -36,14 +36,20 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
         m_c_right.setOnClickListener(this);
         p_c_left.setOnClickListener(this);
         p_c_right.setOnClickListener(this);
+
+    }
+    public void onWindowFocusChanged (boolean hasFocus) {
+        playerHexagon.setX(p_c_left.getX()+((p_c_right.getX()-p_c_left.getX())/2));
+        playerHexagon.setY(p_c_left.getY());
+        pcHexagon.setX(m_c_left.getX()+((m_c_right.getX()-m_c_left.getX())/2));
+        pcHexagon.setY(m_c_left.getY());
     }
 
 
     private void addSelectColorHexagon() {
 
-        int marginLeft = 640;
-        int marginTop = 635;
-
+        int marginLeft = 0;
+        int marginTop = 0;
         Vector2 hexagonDimension = new Vector2(GameActivity.SIZE,GameActivity.SIZE);
         Vector2 coords = new Vector2(0, 0);
         playerHexagon = new HexagonView(this,coords,hexagonDimension, InitActivity.bottomPlayerColor, false);

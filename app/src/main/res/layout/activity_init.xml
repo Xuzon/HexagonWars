@@ -126,7 +126,8 @@
         android:id="@+id/hexagonos"
         android:layout_marginBottom="33dp"
         android:layout_above="@+id/rules"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 
 </RelativeLayout>
