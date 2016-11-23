@@ -39,3 +39,4 @@ Consiste en un juego contra una inteligencia artificial, consiste en conquistar 
 - [Programming Mobile Applications for Android Handheld Systems: Part 1](https://www.coursera.org/learn/android-programming)
 - [Programming Mobile Applications for Android Handheld Systems: Part 2](https://www.coursera.org/learn/android-programming-2)
 - [Android programming course: learn how to create your own applications](http://www.sgoliver.net/blog/curso-de-programacion-android/)
+- Imagenes utilizadas: https://pixabay.com/es/misil-cohete-arma-150987/

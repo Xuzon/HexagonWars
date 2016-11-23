@@ -1,7 +1,14 @@
 package psic07.uvigo.teleco.hexagonwars;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Matrix;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.view.WindowManager;
@@ -19,6 +26,9 @@ public class GameActivity extends AppCompatActivity {
     public static int gridYOffset = 400;
     public static int gridXOffset = 0;
     public static ArrayList<HexagonView> grid;
+    public boolean superTokenOn = false;
+    public ImageView imgTokenTopL, imgTokenBottomL, imgTokenTopR, imgTokenBottomR;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +100,7 @@ public class GameActivity extends AppCompatActivity {
         params.leftMargin = offsetx;
         params.topMargin = offsetyH2;
         layout.addView(bottomPlayerScore,params);
+
     }
 
     private void ShowGrid(){
@@ -100,4 +111,93 @@ public class GameActivity extends AppCompatActivity {
             layout.addView(hexagon,params);
         }
     }
+
+
+    public void onWindowFocusChanged (boolean hasFocus) {
+        imgTokenTopR = new ImageView((this));
+        imgTokenTopR.setImageResource(R.drawable.missile);
+        imgTokenTopL = new ImageView((this));
+        imgTokenTopL.setImageResource(R.drawable.missile);
+        imgTokenBottomR = new ImageView((this));
+        imgTokenBottomR.setImageResource(R.drawable.missile);
+        imgTokenBottomL = new ImageView((this));
+        imgTokenBottomL.setImageResource(R.drawable.missile);
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(SIZE-50, SIZE+50);
+
+        imgTokenTopR.setX(topPlayerScore.getX() + SIZE);
+        imgTokenTopR.setY(topPlayerScore.getY());
+
+        imgTokenTopL.setX(topPlayerScore.getX() - SIZE + 50);
+        imgTokenTopL.setY(topPlayerScore.getY());
+
+        imgTokenBottomR.setX(bottomPlayerScore.getX() + SIZE);
+        imgTokenBottomR.setY(bottomPlayerScore.getY());
+
+        imgTokenBottomL.setX(bottomPlayerScore.getX() - SIZE + 50);
+        imgTokenBottomL.setY(bottomPlayerScore.getY());
+
+        addContentView(imgTokenTopL, params);
+        addContentView(imgTokenTopR, params);
+        addContentView(imgTokenBottomL, params);
+        addContentView(imgTokenBottomR, params);
+
+        imgTokenTopL.setVisibility(View.GONE);
+        imgTokenTopR.setVisibility(View.GONE);
+        imgTokenBottomL.setVisibility(View.GONE);
+        imgTokenBottomR.setVisibility(View.GONE);
+    }
+
+
+    public boolean calculateSuperToken() {
+        int dif;
+        int scoreTurn = (HexagonView.turnColor == InitActivity.topPlayerColor) ? topPlayerScore.score : bottomPlayerScore.score;
+        int scoreNoTurn = (HexagonView.noturnColor == InitActivity.topPlayerColor) ? topPlayerScore.score : bottomPlayerScore.score;
+        dif = scoreNoTurn-scoreTurn;
+
+        superTokenOn=false;
+
+        //System.out.println(Math.exp((scoreNoTurn-scoreTurn)/59));
+
+        if(dif>3) {
+            //prob = (59*1)/(scoreNoTurn-scoreTurn);
+            superTokenOn = (((int)(Math.random()*grid.size()))<=dif)? true : false;
+            //superTokenOn = (((int)(Math.random()*10))==1)? true : false;
+        }
+
+        //Hide the image of the tokens.
+        imgTokenBottomL.setVisibility(View.GONE);
+        imgTokenBottomR.setVisibility(View.GONE);
+        imgTokenTopL.setVisibility(View.GONE);
+        imgTokenTopR.setVisibility(View.GONE);
+
+        //show the image of the token.
+        if(superTokenOn) {
+            if(InitActivity.topPlayerColor == HexagonView.turnColor) {
+                imgTokenTopL.setVisibility(View.VISIBLE);
+                imgTokenTopR.setVisibility(View.VISIBLE);
+
+            } else {
+                imgTokenBottomL.setVisibility(View.VISIBLE);
+                imgTokenBottomR.setVisibility(View.VISIBLE);
+            }
+        }
+
+        return this.superTokenOn;
+    }
+
+    //Muestra un alert en la pantalla (Temporal, es posible mejorarlo.)
+    public void alert(String title, String msg) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(msg);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
 }

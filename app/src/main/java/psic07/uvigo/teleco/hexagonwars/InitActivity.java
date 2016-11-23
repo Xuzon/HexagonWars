@@ -117,11 +117,7 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
         //Remove notification bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //Añadimos los colores a una lista.
-        colors.add(0xff11D5F7);  //Color Blue
-        colors.add(0xffF72A86);  //Color red
-        colors.add(0xffF2A286); //Color carne
-        colors.add(0xff007A04); //Color Green
+        addColors();
 
         //Obtenemos las medidas en píxeles de la pantalla
         DisplayMetrics metrics = new DisplayMetrics();
@@ -243,6 +239,15 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    public void addColors() {
+        //Añadimos los colores a una lista.
+        colors.add(0xff11D5F7);  //Color Blue
+        colors.add(0xffF72A86);  //Color red
+        colors.add(0xffF2A286); //Color carne
+        colors.add(0xff007A04); //Color Green
+    }
+
     public void alert(String title, String msg) {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle(title);
