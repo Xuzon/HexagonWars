@@ -2,6 +2,7 @@ package psic07.uvigo.teleco.hexagonwars;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,9 @@ public class GameActivity extends AppCompatActivity {
     public static int gridYOffset = 400;
     public static int gridXOffset = 0;
     public static ArrayList<HexagonView> grid;
+    public int turnColor; //Color del que tiene el turno.
+    public int noturnColor; //Color del que no tiene el turno.
+    public boolean flag_fin = false;
     public boolean superTokenOn = false;
     public ImageView imgTokenTopL, imgTokenBottomL, imgTokenTopR, imgTokenBottomR;
 
@@ -47,6 +51,7 @@ public class GameActivity extends AppCompatActivity {
         ShowGrid();
         addScore();
         setContentView(layout);
+        flag_fin = false;
     }
 
     private void SetBackground() {
@@ -82,6 +87,9 @@ public class GameActivity extends AppCompatActivity {
         return toRet;
     }
 
+    /**
+     * Añade los hexagonos con la puntación
+     */
     private void addScore() {
         int offsetx = (InitActivity.screenWidth-SIZE)/2;
         int offsetyH1 = 100;
@@ -152,8 +160,8 @@ public class GameActivity extends AppCompatActivity {
 
     public boolean calculateSuperToken() {
         int dif;
-        int scoreTurn = (HexagonView.turnColor == InitActivity.topPlayerColor) ? topPlayerScore.score : bottomPlayerScore.score;
-        int scoreNoTurn = (HexagonView.noturnColor == InitActivity.topPlayerColor) ? topPlayerScore.score : bottomPlayerScore.score;
+        int scoreTurn = (turnColor == InitActivity.topPlayerColor) ? topPlayerScore.score : bottomPlayerScore.score;
+        int scoreNoTurn = (noturnColor == InitActivity.topPlayerColor) ? topPlayerScore.score : bottomPlayerScore.score;
         dif = scoreNoTurn-scoreTurn;
 
         superTokenOn=false;
@@ -174,7 +182,7 @@ public class GameActivity extends AppCompatActivity {
 
         //show the image of the token.
         if(superTokenOn) {
-            if(InitActivity.topPlayerColor == HexagonView.turnColor) {
+            if(InitActivity.topPlayerColor == turnColor) {
                 imgTokenTopL.setVisibility(View.VISIBLE);
                 imgTokenTopR.setVisibility(View.VISIBLE);
 
@@ -185,6 +193,63 @@ public class GameActivity extends AppCompatActivity {
         }
 
         return this.superTokenOn;
+    }
+
+    public void changeTurn() {
+        noturnColor = turnColor;
+
+        if (turnColor == InitActivity.bottomPlayerColor) {
+            turnColor = InitActivity.topPlayerColor;
+
+            //Instrucciones temporales, son para saber visualmente a quien pertenece el turno
+            topPlayerScore.hexagon.setBorderColor(Color.WHITE);
+            bottomPlayerScore.hexagon.setBorderColor(HexagonDrawable.defaultBorderColor);
+            //Fin instrucciones temporales
+
+        } else {
+            turnColor = InitActivity.bottomPlayerColor;
+
+            //Instrucciones temporales, son para saber visualmente a quien pertenece el turno
+            bottomPlayerScore.hexagon.setBorderColor(Color.WHITE);
+            topPlayerScore.hexagon.setBorderColor(HexagonDrawable.defaultBorderColor);
+            //Fin instrucciones temporales
+        }
+
+        calculateSuperToken();
+
+        topPlayerScore.invalidate();
+        bottomPlayerScore.invalidate();
+    }
+
+    public void testFin() {
+        //Comprobamos si se han cubierto todos los hexágonos y en ese caso quién sería el ganador.
+        if((bottomPlayerScore.score + topPlayerScore.score) == grid.size()) {
+
+            //Comprobamos si el oponete debe conquistar algo antes de terminar.
+            HexagonView.testConquer();
+
+            if(bottomPlayerScore.score > topPlayerScore.score) {
+                alert("Finish", "The BOTTOM player WIN the game. Congratulations!!!!!");
+            }
+            if(bottomPlayerScore.score < topPlayerScore.score) {
+                alert("Finish", "The TOP player WIN the game. Congratulations!!!!!");
+            }
+            flag_fin=true;
+        }
+    }
+
+    /**
+     * Actualizamos la puntuación. Y si es necesario cambiamos el turno.
+     * @param conquer Si es conquiestado se resta la puntuación al oponente
+     */
+    public void scoreUpdate(boolean conquer) {
+        if (turnColor == InitActivity.bottomPlayerColor) {
+            bottomPlayerScore.score++;
+            if (conquer) topPlayerScore.score--;
+        } else {
+            topPlayerScore.score++;
+            if (conquer) bottomPlayerScore.score--;
+        }
     }
 
     //Muestra un alert en la pantalla (Temporal, es posible mejorarlo.)
