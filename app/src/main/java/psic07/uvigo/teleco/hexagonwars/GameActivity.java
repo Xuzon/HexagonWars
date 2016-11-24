@@ -61,19 +61,20 @@ public class GameActivity extends AppCompatActivity {
     private ArrayList<HexagonView> CreateGrid() {
         ArrayList<HexagonView> toRet = new ArrayList<HexagonView>();
         Vector2 hexagonDimension = new Vector2(SIZE,SIZE);
-        //float xSizeMultiplier = 1f - (1f - HexagonDrawable.FILL_PERCENTAGE );
-        float xSizeMultiplier = 1;
+        int halfSizeEdge =(int) (SIZE * (1f - HexagonDrawable.FILL_PERCENTAGE ) / 2f);
         float ySizeMultiplier = 3f / 4f;
-        int xPos = (int) (SIZE * xSizeMultiplier);
+        int xPos = (int) (SIZE);
         int yPos = (int) (SIZE * ySizeMultiplier);
             for(int i = 0; i < ROWS; i++) {
                 for(int j = 0; j < HEXAGONS_PER_ROW ; j++) {
                     boolean notOdd = (i % 2 == 0) ? true : false;
                 int oddOffset = (notOdd) ? 0 : ((InitActivity.screenWidth-(SIZE*(HEXAGONS_PER_ROW-1)))/2);
-                if(!notOdd && j == (HEXAGONS_PER_ROW - 1)){
+                if(!notOdd && j == (HEXAGONS_PER_ROW - 1)) {
                     continue;
                 }
-                Vector2 coords = new Vector2(gridXOffset + oddOffset + j * xPos,gridYOffset + i * yPos);
+                int xCoord = gridXOffset + oddOffset + j * xPos - halfSizeEdge * j;
+                int yCoord = gridYOffset + i * yPos - halfSizeEdge * i;
+                Vector2 coords = new Vector2(xCoord,yCoord);
                 HexagonView hexagon = new HexagonView(this,coords,hexagonDimension, j, i, toRet.size());
                 toRet.add(hexagon);
             }
