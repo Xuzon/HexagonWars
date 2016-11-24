@@ -39,7 +39,7 @@ public class GameActivity extends AppCompatActivity {
 
         //Calculo del centro del grid.
         gridYOffset = (int) ((InitActivity.screenHeight-((3f/4f)*SIZE*ROWS))/2);
-        gridXOffset = (int) ((InitActivity.screenWidth-(SIZE*HEXAGONS_PER_ROW))/2);
+        gridXOffset = (int) ((InitActivity.screenWidth-(SIZE*(HEXAGONS_PER_ROW-2)+SIZE*2*HexagonDrawable.FILL_PERCENTAGE))/2);
 
         //Ocultar barra notificaciones Android
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

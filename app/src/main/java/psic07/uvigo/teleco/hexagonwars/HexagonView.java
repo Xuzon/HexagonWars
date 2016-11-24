@@ -3,18 +3,9 @@ package psic07.uvigo.teleco.hexagonwars;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.util.Size;
-import android.graphics.Rect;
 import android.view.View;
 import android.graphics.Typeface;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.widget.ImageView;
-
-import java.util.Random;
 
 /**
  * Created by danie on 15/11/2016.
