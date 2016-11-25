@@ -26,12 +26,12 @@ public class GameActivity extends AppCompatActivity {
     public static HexagonView bottomPlayerScore;
     public static int gridYOffset = 400;
     public static int gridXOffset = 0;
-    public static ArrayList<HexagonView> grid;
+    public static ArrayList<HexagonView> grid; //ArrayList de los hexagonos (grid)
     public int turnColor; //Color del que tiene el turno.
     public int noturnColor; //Color del que no tiene el turno.
-    public boolean flag_fin = false;
-    public boolean superTokenOn = false;
-    public ImageView imgTokenTopL, imgTokenBottomL, imgTokenTopR, imgTokenBottomR;
+    public boolean flag_fin = false;  //Flag de fin de juego.
+    public boolean superTokenOn = false; //flag de token (Para el que tiene el turno)
+    public ImageView imgTokenTopL, imgTokenBottomL, imgTokenTopR, imgTokenBottomR; //Imagen de los tokens.
 
 
     @Override
@@ -47,6 +47,11 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         layout = new RelativeLayout(this);
         SetBackground();
+
+        //Turnos al inicio del juego.
+        turnColor = InitActivity.bottomPlayerColor;
+        noturnColor = InitActivity.topPlayerColor;
+
         grid = CreateGrid();
         ShowGrid();
         addScore();
@@ -54,6 +59,9 @@ public class GameActivity extends AppCompatActivity {
         flag_fin = false;
     }
 
+    /**
+     * Configuración del background del juego
+     */
     private void SetBackground() {
         ImageView background = new ImageView(this);
         background.setBackgroundResource(R.drawable.gamebackground);
@@ -63,6 +71,10 @@ public class GameActivity extends AppCompatActivity {
         layout.addView(background,params);
     }
 
+    /**
+     * Creación del Array de Hexágonos del juego. Cada hexagono incluye su posición, color, etc.
+     * @return ArrayList de los hexágonos.
+     */
     private ArrayList<HexagonView> CreateGrid() {
         ArrayList<HexagonView> toRet = new ArrayList<HexagonView>();
         Vector2 hexagonDimension = new Vector2(SIZE,SIZE);
@@ -80,7 +92,7 @@ public class GameActivity extends AppCompatActivity {
                 int xCoord = gridXOffset + oddOffset + j * xPos - halfSizeEdge * j;
                 int yCoord = gridYOffset + i * yPos - halfSizeEdge * i;
                 Vector2 coords = new Vector2(xCoord,yCoord);
-                HexagonView hexagon = new HexagonView(this,coords,hexagonDimension, j, i, toRet.size());
+                HexagonView hexagon = new HexagonView(this, this, coords,hexagonDimension, j, i, toRet.size());
                 toRet.add(hexagon);
             }
         }
@@ -96,7 +108,7 @@ public class GameActivity extends AppCompatActivity {
         int offsetyH2 = InitActivity.screenHeight-SIZE-100;
         Vector2 hexagonDimension = new Vector2(SIZE,SIZE);
         Vector2 coords = new Vector2(offsetx, offsetyH1);
-        topPlayerScore = new HexagonView(this,coords,hexagonDimension, InitActivity.topPlayerColor, true);
+        topPlayerScore = new HexagonView(this, this, coords,hexagonDimension, InitActivity.topPlayerColor);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(SIZE,SIZE);
         params.leftMargin = offsetx;
         params.topMargin = offsetyH1;
@@ -104,7 +116,7 @@ public class GameActivity extends AppCompatActivity {
 
         hexagonDimension = new Vector2(SIZE,SIZE);
         coords = new Vector2(offsetx, offsetyH2);
-        bottomPlayerScore = new HexagonView(this,coords,hexagonDimension, InitActivity.bottomPlayerColor, true);
+        bottomPlayerScore = new HexagonView(this, this, coords,hexagonDimension, InitActivity.bottomPlayerColor);
         params = new RelativeLayout.LayoutParams(SIZE,SIZE);
         params.leftMargin = offsetx;
         params.topMargin = offsetyH2;
@@ -121,7 +133,11 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Al cargar la ventana del juego, cargamos las imagenes de los tokens en los laterales de los hexágonos de Score.
+     * Estos se ocultan por defecto. Se mostrarán al que le toque el token.
+     * @param hasFocus
+     */
     public void onWindowFocusChanged (boolean hasFocus) {
         imgTokenTopR = new ImageView((this));
         imgTokenTopR.setImageResource(R.drawable.missile);
@@ -157,7 +173,10 @@ public class GameActivity extends AppCompatActivity {
         imgTokenBottomR.setVisibility(View.GONE);
     }
 
-
+    /**
+     * Calcula la probabilidad de que al que tiene el turno le toque el token. Muestra la imagen para saber que tiene el token.
+     * @return Si se otorga el token o no.
+     */
     public boolean calculateSuperToken() {
         int dif;
         int scoreTurn = (turnColor == InitActivity.topPlayerColor) ? topPlayerScore.score : bottomPlayerScore.score;
@@ -165,8 +184,6 @@ public class GameActivity extends AppCompatActivity {
         dif = scoreNoTurn-scoreTurn;
 
         superTokenOn=false;
-
-        //System.out.println(Math.exp((scoreNoTurn-scoreTurn)/59));
 
         if(dif>3) {
             //prob = (59*1)/(scoreNoTurn-scoreTurn);
@@ -195,6 +212,9 @@ public class GameActivity extends AppCompatActivity {
         return this.superTokenOn;
     }
 
+    /**
+     * Cambia el turno
+     */
     public void changeTurn() {
         noturnColor = turnColor;
 
@@ -221,6 +241,10 @@ public class GameActivity extends AppCompatActivity {
         bottomPlayerScore.invalidate();
     }
 
+    /**
+     * Comprueba si se ha rellenado todo el grid.
+     * En ese caso muestra un alert con el ganador.
+     */
     public void testFin() {
         //Comprobamos si se han cubierto todos los hexágonos y en ese caso quién sería el ganador.
         if((bottomPlayerScore.score + topPlayerScore.score) == grid.size()) {
@@ -252,7 +276,11 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    //Muestra un alert en la pantalla (Temporal, es posible mejorarlo.)
+    /**
+     * Muestra un alert en la pantalla con un botón de ok (Temporal, es posible mejorarlo.)
+     * @param title Título del alert
+     * @param msg Mensaje del alert
+     */
     public void alert(String title, String msg) {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle(title);

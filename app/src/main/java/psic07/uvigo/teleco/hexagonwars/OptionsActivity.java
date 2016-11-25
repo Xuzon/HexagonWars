@@ -52,7 +52,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
         int marginTop = 0;
         Vector2 hexagonDimension = new Vector2(GameActivity.SIZE,GameActivity.SIZE);
         Vector2 coords = new Vector2(0, 0);
-        playerHexagon = new HexagonView(this,coords,hexagonDimension, InitActivity.bottomPlayerColor, false);
+        playerHexagon = new HexagonView(this,coords,hexagonDimension, InitActivity.bottomPlayerColor);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(GameActivity.SIZE,GameActivity.SIZE);
         params.leftMargin = marginLeft;
         params.topMargin = marginTop;
@@ -60,7 +60,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
         hexagonDimension = new Vector2(GameActivity.SIZE,GameActivity.SIZE);
         coords = new Vector2(0, 0);
-        pcHexagon = new HexagonView(this,coords,hexagonDimension, InitActivity.topPlayerColor, false);
+        pcHexagon = new HexagonView(this,coords,hexagonDimension, InitActivity.topPlayerColor);
         params = new RelativeLayout.LayoutParams(GameActivity.SIZE,GameActivity.SIZE);
         params.leftMargin = marginLeft;
         params.topMargin = marginTop+200;

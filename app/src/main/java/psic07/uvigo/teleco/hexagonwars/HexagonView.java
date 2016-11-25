@@ -22,12 +22,19 @@ public class HexagonView extends View implements View.OnClickListener{
     int score = 0;
     GameActivity game;
 
-
-    public HexagonView(Context context,Vector2 coords, Vector2 dim, int posX, int posY, int posArray) {
+    /**
+     * Constructor de hexagono genérico (Transparente)
+     * @param context
+     * @param game      Juego
+     * @param coords
+     * @param dim
+     * @param posX
+     * @param posY
+     * @param posArray
+     */
+    public HexagonView(Context context, GameActivity game, Vector2 coords, Vector2 dim, int posX, int posY, int posArray) {
         super(context);
-        game = (GameActivity) context;
-        game.turnColor = InitActivity.bottomPlayerColor;
-        game.noturnColor = InitActivity.topPlayerColor;
+        this.game = game;
         this.coords = coords;
         this.dim = dim;
         this.posX = posX;
@@ -36,10 +43,32 @@ public class HexagonView extends View implements View.OnClickListener{
         SetupHexagonDrawable(dim,hexagon.transparent);
     }
 
-    public HexagonView(Context context,Vector2 coords, Vector2 dim, int color, boolean hexScore) {
+    /**
+     * Constructor de hexagono de selección de color (Solo en Options)
+     * @param context
+     * @param coords
+     * @param dim
+     * @param color
+     */
+    public HexagonView(Context context,Vector2 coords, Vector2 dim, int color) {
         super(context);
-        game = (GameActivity) context;
-        this.hexScore = hexScore;
+        this.coords = coords;
+        this.dim = dim;
+        SetupHexagonDrawable(dim, color);
+    }
+
+    /**
+     * Constructor de Hexagono de Score.
+     * @param context
+     * @param game      Juego
+     * @param coords
+     * @param dim
+     * @param color     Color del hexágono
+     */
+    public HexagonView(Context context, GameActivity game, Vector2 coords, Vector2 dim, int color) {
+        super(context);
+        this.game = game;
+        this.hexScore = true;
         this.coords = coords;
         this.dim = dim;
         SetupHexagonDrawable(dim, color);
@@ -56,6 +85,9 @@ public class HexagonView extends View implements View.OnClickListener{
         }
     }
 
+    /**
+     * Conquista un hexagono en concreto.
+     */
     public void ConquerMe(){
 
         if(game.flag_fin) return;
@@ -109,6 +141,9 @@ public class HexagonView extends View implements View.OnClickListener{
 
 
     @Override
+    /**
+     * Listener de cada Hexágono
+     */
     public void onClick(View v) {
         //just for be sure v has to be me but you'll never know XD
         if(v instanceof HexagonView){
@@ -117,6 +152,9 @@ public class HexagonView extends View implements View.OnClickListener{
         }
     }
 
+    /**
+     * Pinta todos los hexagono alrededor de este.
+     */
     public void superToken() {
 
         int hpr = GameActivity.HEXAGONS_PER_ROW;
