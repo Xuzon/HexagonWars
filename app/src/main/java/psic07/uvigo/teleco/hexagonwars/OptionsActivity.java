@@ -7,13 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 public class OptionsActivity extends AppCompatActivity implements View.OnClickListener {
     RelativeLayout layout;
     HexagonView playerHexagon;
     HexagonView pcHexagon;
-    Button m_c_left, m_c_right, p_c_left, p_c_right;
+    ImageButton c_b_left, c_b_right, p_b_left, p_b_right;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,21 +29,21 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
         addSelectColorHexagon();
 
         setContentView(layout);
-        m_c_left=(Button)findViewById(R.id.m_c_left);
-        m_c_right=(Button)findViewById(R.id.m_c_right);
-        p_c_left=(Button)findViewById(R.id.p_c_left);
-        p_c_right=(Button)findViewById(R.id.p_c_right);
-        m_c_left.setOnClickListener(this);
-        m_c_right.setOnClickListener(this);
-        p_c_left.setOnClickListener(this);
-        p_c_right.setOnClickListener(this);
+        c_b_left=(ImageButton)findViewById(R.id.c_b_left);
+        c_b_right=(ImageButton)findViewById(R.id.c_b_right);
+        p_b_left=(ImageButton)findViewById(R.id.p_b_left);
+        p_b_right=(ImageButton)findViewById(R.id.p_b_right);
+        c_b_left.setOnClickListener(this);
+        c_b_right.setOnClickListener(this);
+        p_b_left.setOnClickListener(this);
+        p_b_right.setOnClickListener(this);
 
     }
     public void onWindowFocusChanged (boolean hasFocus) {
-        playerHexagon.setX(p_c_left.getX()+((p_c_right.getX()-p_c_left.getX())/2));
-        playerHexagon.setY(p_c_left.getY());
-        pcHexagon.setX(m_c_left.getX()+((m_c_right.getX()-m_c_left.getX())/2));
-        pcHexagon.setY(m_c_left.getY());
+        playerHexagon.setX(p_b_left.getX()+((p_b_right.getX()-p_b_left.getX())/2));
+        playerHexagon.setY(p_b_left.getY());
+        pcHexagon.setX(c_b_left.getX()+((c_b_right.getX()-c_b_left.getX())/2));
+        pcHexagon.setY(c_b_left.getY());
     }
 
 
@@ -74,7 +75,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
         switch (view.getId())
         {
             //Change color bottons.
-            case(R.id.m_c_left):
+            case(R.id.c_b_left):
                 index = InitActivity.colors.indexOf(pcHexagon.hexagon.centerColor);
                 if(index-1<0) index=InitActivity.colors.size();
                 if(playerHexagon.hexagon.centerColor == InitActivity.colors.get(index-1)) index=index-1;
@@ -83,7 +84,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
                 pcHexagon.hexagon.centerColor = InitActivity.colors.get(index-1);
                 pcHexagon.invalidate();
                 break;
-            case(R.id.m_c_right):
+            case(R.id.c_b_right):
                 index = InitActivity.colors.indexOf(pcHexagon.hexagon.centerColor);
                 if(index+1>=InitActivity.colors.size()) index=-1;
                 if(playerHexagon.hexagon.centerColor == InitActivity.colors.get(index+1)) index=index+1;
@@ -92,7 +93,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
                 pcHexagon.hexagon.centerColor = InitActivity.colors.get(index+1);
                 pcHexagon.invalidate();
                 break;
-            case(R.id.p_c_left):
+            case(R.id.p_b_left):
                 index = InitActivity.colors.indexOf(playerHexagon.hexagon.centerColor);
                 if(index-1<0) index=InitActivity.colors.size();
                 if(pcHexagon.hexagon.centerColor == InitActivity.colors.get(index-1)) index=index-1;
@@ -101,7 +102,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
                 playerHexagon.hexagon.centerColor = InitActivity.colors.get(index-1);
                 playerHexagon.invalidate();
                 break;
-            case(R.id.p_c_right):
+            case(R.id.p_b_right):
                 index = InitActivity.colors.indexOf(playerHexagon.hexagon.centerColor);
                 if(index+1>=InitActivity.colors.size()) index=-1;
                 if(pcHexagon.hexagon.centerColor == InitActivity.colors.get(index+1)) index=index+1;
