@@ -9,12 +9,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 
 public class OptionsActivity extends AppCompatActivity implements View.OnClickListener {
     RelativeLayout layout;
     HexagonView playerHexagon;
     HexagonView pcHexagon;
     ImageButton c_b_left, c_b_right, p_b_left, p_b_right;
+    Switch general_switch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
         c_b_right=(ImageButton)findViewById(R.id.c_b_right);
         p_b_left=(ImageButton)findViewById(R.id.p_b_left);
         p_b_right=(ImageButton)findViewById(R.id.p_b_right);
+        general_switch=(Switch)findViewById(R.id.general_switch);
         c_b_left.setOnClickListener(this);
         c_b_right.setOnClickListener(this);
         p_b_left.setOnClickListener(this);
@@ -40,10 +43,10 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
     }
     public void onWindowFocusChanged (boolean hasFocus) {
-        playerHexagon.setX(p_b_left.getX()+((p_b_right.getX()-p_b_left.getX())/2));
-        playerHexagon.setY(p_b_left.getY());
-        pcHexagon.setX(c_b_left.getX()+((c_b_right.getX()-c_b_left.getX())/2));
-        pcHexagon.setY(c_b_left.getY());
+        playerHexagon.setX(general_switch.getX());
+        playerHexagon.setY(p_b_left.getY()-GameActivity.SIZE/4);
+        pcHexagon.setX(general_switch.getX());
+        pcHexagon.setY(c_b_left.getY()-GameActivity.SIZE/4);
     }
 
 

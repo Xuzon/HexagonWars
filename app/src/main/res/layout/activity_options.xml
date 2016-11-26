@@ -13,17 +13,6 @@
     tools:context="psic07.uvigo.teleco.hexagonwars.OptionsActivity"
     android:animationCache="false">
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="23dp"
-        android:id="@+id/general_switch"
-        android:textOff="No"
-        android:textOn="Si"
-        android:background="@color/colorPrimary"
-        android:layout_alignTop="@+id/general"
-        android:layout_alignParentEnd="true" />
-
     <TextView
         android:text="Hexagon Wars"
         android:layout_width="match_parent"
@@ -46,28 +35,6 @@
         android:layout_marginTop="25dp"
         android:layout_below="@+id/s"
         android:layout_alignStart="@+id/maquina" />
-
-    <TextView
-        android:text="Music"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:id="@+id/musica"
-        android:layout_marginBottom="11dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/general" />
-
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/musica_switch"
-        android:textOff="No"
-        android:textOn="Si"
-        android:background="@color/colorPrimaryDark"
-        android:layout_alignTop="@+id/musica"
-        android:layout_alignStart="@+id/general_switch" />
 
     <TextView
         android:text="Computer"
@@ -174,5 +141,39 @@
         android:id="@+id/generales"
         android:layout_below="@+id/HexagonWars"
         android:layout_alignParentStart="true" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/general_switch"
+        android:textOff="No"
+        android:textOn="Si"
+        android:background="@color/colorPrimary"
+        android:layout_marginEnd="33dp"
+        android:layout_alignTop="@+id/general"
+        android:layout_toStartOf="@+id/c_b_right" />
+
+    <TextView
+        android:text="Music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/musica"
+        android:layout_below="@+id/general"
+        android:layout_alignStart="@+id/general"
+        android:layout_marginTop="12dp" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/musica_switch"
+        android:textOff="No"
+        android:textOn="Si"
+        android:background="@color/colorPrimaryDark"
+        android:layout_alignBaseline="@+id/musica"
+        android:layout_alignBottom="@+id/musica"
+        android:layout_alignStart="@+id/general_switch" />
 
 </RelativeLayout>
