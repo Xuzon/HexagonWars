@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,8 @@ import android.util.DisplayMetrics;
 import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
+    public final int gameWindowSound = R.raw.epic;                //Path de sonido de la pestaña de juego.
+    public final int hexagonSelectionSound = R.raw.click;                //Path de sonido de hexagonos.
     RelativeLayout layout;
     public static int SIZE = 150;
     public final static int HEXAGONS_PER_ROW = 7;
@@ -32,6 +35,9 @@ public class GameActivity extends AppCompatActivity {
     public boolean flag_fin = false;  //Flag de fin de juego.
     public boolean superTokenOn = false; //flag de token (Para el que tiene el turno)
     public ImageView imgTokenTopL, imgTokenBottomL, imgTokenTopR, imgTokenBottomR; //Imagen de los tokens.
+    MediaPlayer gamesound;               //Creamos mediaplayer para el sonido inicial.
+    MediaPlayer hexagonsound;              //Creamos mediaplayer para el sonido de los hexagonos
+    OptionsActivity optionsActivity = new OptionsActivity();
 
 
     @Override
@@ -293,5 +299,48 @@ public class GameActivity extends AppCompatActivity {
                 });
         alertDialog.show();
     }
+
+
+
+
+    //Funcion que se encarga de reproducir el sonido de la area de juego.
+    private void playGameWindowSound() {
+        if (optionsActivity.allow_music_sound) {
+            gamesound = MediaPlayer.create(this, gameWindowSound);
+            gamesound.setLooping(true);
+            gamesound.start();
+        }
+    }
+
+    //Funcion que se encarga de reproducir el sonido de los botones.
+    private void playHexagonSelectionSound() {
+        hexagonsound = MediaPlayer.create(this,hexagonSelectionSound);
+        hexagonsound.start();
+    }
+
+    @Override
+    protected void onStop() {
+        if (gamesound != null && gamesound.isPlaying()) {
+            gamesound.stop();
+        }
+        super.onPause();
+    }
+
+    //Funcion que vuelve a definir el media player en caso de volver a la area de juego.
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(gamesound == null) {
+            playGameWindowSound();
+        }
+    }
+    //Funcion  que vuelve a reproducir sonido en caso de volver a la ventana anterior
+    @Override
+    protected void onResume() {
+        super.onResume();
+        playGameWindowSound();
+    }
+
+
 
 }
