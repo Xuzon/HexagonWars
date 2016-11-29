@@ -2,7 +2,7 @@
 
 - [Descripción](#descripción)
 - [Reglas](#reglas)
-- [Recursos Utilizados](#recursos%20%utilizados)
+- [Recursos Utilizados](#recursos-utilizados)
 - [Referencias](#referencias)
 
 
