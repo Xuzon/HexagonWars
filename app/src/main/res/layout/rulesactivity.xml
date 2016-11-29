@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,4 +19,72 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
+    <TextView
+        android:text="1º- Each player has a turn and in the turn he has to put a token in the battlefield, it has to be placed in a blank hexagon "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/HexagonWars"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="28dp"
+        android:textSize="20dp"
+        android:id="@+id/rule1" />
+
+    <TextView
+        android:text="2º- At the beginning of the turn the token that the player has, the token has a chance to become a Super Token, If the player is losing he has bigger chances."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="12dp"
+        android:textSize="20dp"
+        android:id="@+id/rule2"
+        android:layout_below="@+id/rule1"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="3º- When a Token is placed it looks to the nearby hexagons, if it has a nearby enemy it tries to conquer it, the conquer will succeed if the enemy hexagon has more enemies than allies surrounding him."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/rule3"
+        android:textSize="20dp"
+        android:layout_below="@+id/rule2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp" />
+
+    <TextView
+        android:text="5º- When a place is conquered he will try to conquer all the nearby enemies again.
+Ex: if a place was Red and turns Blue it will try to conquer all the Red nearby enemies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="14dp"
+        android:textSize="20dp"
+        android:id="@+id/rule5"
+        android:layout_below="@+id/rule4"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="4º- When a Super Token is placed it immediately conquers all the surrounding enemies."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="13dp"
+        android:textSize="20dp"
+        android:id="@+id/rule4"
+        android:layout_below="@+id/rule3"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="6º- When all the battlefield is taken the playe who has more hexagons conquered is the winner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="13dp"
+        android:textSize="20dp"
+        android:id="@+id/rule6"
+        android:layout_below="@+id/rule5"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
+ </ScrollView>
