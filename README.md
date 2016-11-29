@@ -2,6 +2,7 @@
 
 - [Descripción](#descripción)
 - [Reglas](#reglas)
+- [Recursos Utilizados](#recursos%20%utilizados)
 - [Referencias](#referencias)
 
 
@@ -33,10 +34,18 @@ Consiste en un juego contra una inteligencia artificial, consiste en conquistar 
 6. Cuando todo el campo de batalla se toma el jugador que tiene más hexágonos conquistados es el ganador
 
 
+## Recursos Utilizados
+#### Imágenes:
+- [Misil para token](https://pixabay.com/es/misil-cohete-arma-150987/)
+
+#### Sonidos:
+- [Música de fondo en tablero de juego](http://www.bensound.com/epic)
+- [Música de fondo de juego](http://www.bensound.com/dance)
+- [Sonido botoneras](http://soundbible.com/1705-Click2.html)
+
 ## Referencias
 - [Android Developers](http://developer.android.com/index.html)
 - [Android Developer NanoDegree](https://www.udacity.com/course/android-developer-nanodegree--nd801)
 - [Programming Mobile Applications for Android Handheld Systems: Part 1](https://www.coursera.org/learn/android-programming)
 - [Programming Mobile Applications for Android Handheld Systems: Part 2](https://www.coursera.org/learn/android-programming-2)
 - [Android programming course: learn how to create your own applications](http://www.sgoliver.net/blog/curso-de-programacion-android/)
-- Imagenes utilizadas: https://pixabay.com/es/misil-cohete-arma-150987/

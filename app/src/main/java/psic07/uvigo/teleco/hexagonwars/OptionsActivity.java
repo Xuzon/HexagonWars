@@ -78,9 +78,9 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
     }
     public void onWindowFocusChanged (boolean hasFocus) {
         playerHexagon.setX(general_switch.getX());
-        playerHexagon.setY(p_b_left.getY()-GameActivity.SIZE/4);
+        playerHexagon.setY(p_b_left.getY()-GameActivity.SIZE/5);
         pcHexagon.setX(general_switch.getX());
-        pcHexagon.setY(c_b_left.getY()-GameActivity.SIZE/4);
+        pcHexagon.setY(c_b_left.getY()-GameActivity.SIZE/5);
     }
 
 
