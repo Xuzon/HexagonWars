@@ -204,58 +204,23 @@ public class HexagonView extends View implements View.OnClickListener{
      * que del propio, este es conquistado. Debe estar rodeado por mas de un hexágono del oponente.
      */
     public void testConquerAround() {
-        int hpr = GameActivity.HEXAGONS_PER_ROW;
-        int gridSize = GameActivity.grid.size();
-        Integer numAroundTurn = 0;
-        Integer numAroundNoTurn = 0;
-        int offsetArray=0;
-        HexagonView tempHex;
+
+        Integer numAllies = 0;
+        Integer numEnemies = 0;
 
         //Si el hexagono no es conquistable salimos
         if(this.hexagon.centerColor!=game.noturnColor)
             return;
 
-        //Offset, para la corrección de las filas pares, ya que en estas están desplazadas con respecto a las impares
-        offsetArray = (posY%2 == 0)? 1 : 0;
-
-        //Comenzamos a contar los colores que reodean al hexagono.
-
-        if((tempHex = UpperLeftHexagon(hpr, offsetArray)) != null) {
-            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
-        }
-
-        if((tempHex = UpperRightHexagon(hpr, offsetArray)) != null) {
-            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
-        }
-
-        if((tempHex = LeftHexagon()) != null) {
-            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
-        }
-
-        if((tempHex = RightHexagon(gridSize)) != null) {
-            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
-        }
-
-        if((tempHex = LowerLeftHexagon(hpr, gridSize, offsetArray)) != null) {
-            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
-        }
-
-        if((tempHex = LowerRightHexagon(hpr, gridSize, offsetArray)) != null) {
-            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
-        }
+        numAllies = countAllies();
+        numEnemies = countEnemies();
 
         //Debe estar rodeado por más de un hexágono del oponente para poder ser conquistado.
-        if(numAroundNoTurn==0 && numAroundTurn==1)
+        if(numEnemies==0 && numAllies==1)
             return;
 
         //Si hay mas hexagonos del color del turno que del que no tiene el turno, conquistamos.
-        if(numAroundTurn > numAroundNoTurn) {
+        if(numAllies > numEnemies) {
             this.hexagon.centerColor = game.turnColor;   //Se conquista el hexágono cambiandole el color.
             this.testConquer(); //Volvemos a comprobar si conquistamos cualquier hexágono (Reiterativamente)
             this.invalidate();
@@ -264,13 +229,105 @@ public class HexagonView extends View implements View.OnClickListener{
     }//testConquerAround
 
     /**
+     * Función para contar los Alliados que colindan con el hexagono
+     * @return Número de aliados.
+     */
+    public int countAllies() {
+
+        int hpr = GameActivity.HEXAGONS_PER_ROW;
+        int gridSize = GameActivity.grid.size();
+        Integer numAllies = 0;
+        int offsetArray=0;
+        HexagonView tempHex;
+
+        if((tempHex = UpperLeftHexagon(hpr, offsetArray)) != null) {
+            numAllies += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+        }
+
+        if((tempHex = UpperRightHexagon(hpr, offsetArray)) != null) {
+            numAllies += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+        }
+
+        if((tempHex = LeftHexagon()) != null) {
+            numAllies += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+        }
+
+        if((tempHex = RightHexagon(gridSize)) != null) {
+            numAllies += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+        }
+
+        if((tempHex = LowerLeftHexagon(hpr, gridSize, offsetArray)) != null) {
+            numAllies += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+        }
+
+        if((tempHex = LowerRightHexagon(hpr, gridSize, offsetArray)) != null) {
+            numAllies += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+        }
+
+        return numAllies;
+    }
+
+    /**
+     * Función para contar el número de enemigos al rededor de un hexágono
+     * @return Número de enemigos
+     */
+    public int countEnemies() {
+        int hpr = GameActivity.HEXAGONS_PER_ROW;
+        int gridSize = GameActivity.grid.size();
+        Integer numEnemies = 0;
+        int offsetArray=0;
+        HexagonView tempHex;
+
+        if((tempHex = UpperLeftHexagon(hpr, offsetArray)) != null) {
+            numEnemies += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        }
+
+        if((tempHex = UpperRightHexagon(hpr, offsetArray)) != null) {
+            numEnemies += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        }
+
+        if((tempHex = LeftHexagon()) != null) {
+            numEnemies += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        }
+
+        if((tempHex = RightHexagon(gridSize)) != null) {
+            numEnemies += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        }
+
+        if((tempHex = LowerLeftHexagon(hpr, gridSize, offsetArray)) != null) {
+            numEnemies += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        }
+
+        if((tempHex = LowerRightHexagon(hpr, gridSize, offsetArray)) != null) {
+            numEnemies += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        }
+
+        return numEnemies;
+    }
+
+    /**
+     * La función calcula cuantos hexagonos serian conquistados en total en caso de marcar el propio.
+     * @return Número de hexagonos conquistados.
+     */
+    public int countHexConquer() {
+
+        int ret = 0;
+
+        //TODO: Contar número de hexágonos posibles a conquistar. (Debe contar también en caso de superToken)
+
+        return  ret;
+
+    }
+
+
+
+    /**
      * Comprobamos si conquistamos algún hexagono
      */
     public static void testConquer() {
         //Comprobamos todos los hexágonos del array.
-        for(HexagonView hex : GameActivity.grid)
-         {
-             hex.testConquerAround();
+        for (int i = 0; i < GameActivity.grid.size(); i++) {
+             GameActivity.grid.get(i).testConquerAround();
          }
     }
 

@@ -33,14 +33,16 @@ public class HexagonIntelligence {
 
     public float NearbyAlliesValue(){
         float toRet = 0;
-        toRet += random.nextInt(7);
+        //toRet += random.nextInt(7);
+        toRet += hexagon.countAllies();
         toRet *= NearbyAlliesWeight;
         return toRet;
     }
 
     public float NearbyEnemiesValue(){
         float toRet = 0;
-        toRet += random.nextInt(7);
+        //toRet += random.nextInt(7);
+        toRet += (7-hexagon.countEnemies());
         toRet *= NearbyEnemiesWeight;
         return toRet;
     }

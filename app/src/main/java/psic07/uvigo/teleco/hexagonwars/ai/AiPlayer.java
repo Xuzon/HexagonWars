@@ -30,6 +30,11 @@ public class AiPlayer {
         int gridHigherPos = -1;
         for(int i = 0; i < GameActivity.grid.size(); i++) {
             HexagonView hex = GameActivity.grid.get(i);
+
+            if(game.superTokenOn) {
+                //TODO: AI select hexagon with superToken
+            }
+
             //if I don't have the superToken and is not transparent I could not conquer it
             if(!game.superTokenOn && (hex.hexagon.centerColor != HexagonDrawable.transparent)){
                 continue;
@@ -40,7 +45,7 @@ public class AiPlayer {
                 higherValue = value;
             }
         }
-        if(gridHigherPos < GameActivity.grid.size() && gridHigherPos > 0) {
+        if(gridHigherPos < GameActivity.grid.size() && gridHigherPos >= 0) {
             HexagonView hex = GameActivity.grid.get(gridHigherPos);
             hex.ConquerMe();
         }
