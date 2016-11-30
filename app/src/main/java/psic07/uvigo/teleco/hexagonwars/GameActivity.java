@@ -18,6 +18,8 @@ import android.util.DisplayMetrics;
 
 import java.util.ArrayList;
 
+import psic07.uvigo.teleco.hexagonwars.ai.AiPlayer;
+
 public class GameActivity extends AppCompatActivity {
     public final int gameWindowSound = R.raw.epic;                //Path de sonido de la pestaña de juego.
     public final int hexagonSelectionSound = R.raw.click;                //Path de sonido de hexagonos.
@@ -39,6 +41,7 @@ public class GameActivity extends AppCompatActivity {
     MediaPlayer hexagonsound;              //Creamos mediaplayer para el sonido de los hexagonos
     OptionsActivity optionsActivity = new OptionsActivity();
 
+    public AiPlayer aiPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,8 @@ public class GameActivity extends AppCompatActivity {
         addScore();
         setContentView(layout);
         flag_fin = false;
+
+        aiPlayer = new AiPlayer(this);
     }
 
     /**
@@ -231,6 +236,7 @@ public class GameActivity extends AppCompatActivity {
             topPlayerScore.hexagon.setBorderColor(Color.WHITE);
             bottomPlayerScore.hexagon.setBorderColor(HexagonDrawable.defaultBorderColor);
             //Fin instrucciones temporales
+            aiPlayer.Turn();
 
         } else {
             turnColor = InitActivity.bottomPlayerColor;

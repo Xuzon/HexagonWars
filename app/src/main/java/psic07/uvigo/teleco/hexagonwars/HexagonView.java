@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 
 public class HexagonView extends View implements View.OnClickListener{
     public HexagonDrawable hexagon;
+    public HexagonIntelligence intelligence;
     Vector2 coords;
     Vector2 dim;
     int posX;
@@ -21,8 +22,6 @@ public class HexagonView extends View implements View.OnClickListener{
     boolean hexScore = false; //Indica si el Hexagono es de partida o de Score
     int score = 0;
     GameActivity game;
-    HexagonIntelligence intelligence;
-
     /**
      * Constructor de hexagono genérico (Transparente)
      * @param context
