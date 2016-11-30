@@ -21,6 +21,7 @@ public class HexagonView extends View implements View.OnClickListener{
     boolean hexScore = false; //Indica si el Hexagono es de partida o de Score
     int score = 0;
     GameActivity game;
+    HexagonIntelligence intelligence;
 
     /**
      * Constructor de hexagono genérico (Transparente)
@@ -40,6 +41,7 @@ public class HexagonView extends View implements View.OnClickListener{
         this.posX = posX;
         this.posY = posY;
         this.posArray = posArray;
+        this.intelligence = new HexagonIntelligence(this);
         SetupHexagonDrawable(dim,hexagon.transparent);
     }
 
@@ -166,100 +168,49 @@ public class HexagonView extends View implements View.OnClickListener{
         offsetArray = (posY%2 == 0)? 1 : 0;
 
         //Superior izquierdo
-        if(posArray-hpr>=0 && GameActivity.grid.get(posArray-hpr).posX==posX-offsetArray) {
-            tempHex = GameActivity.grid.get(posArray-hpr);
-            if(tempHex.hexagon.centerColor != game.turnColor) {
-                if(tempHex.hexagon.centerColor == game.noturnColor) {
-                    game.scoreUpdate(true);
-                } else {
-                    game.scoreUpdate(false);
-                }
-                tempHex.hexagon.centerColor = game.turnColor;
-                tempHex.invalidate();
-            }
+        if((tempHex = UpperLeftHexagon(hpr,offsetArray)) != null) {
+            tempHex.ChangeColor();
         }
 
         //Superior derecho
-        if(posArray-hpr+1>=0 && GameActivity.grid.get(posArray-hpr+1).posX==posX+1-offsetArray) {
-            tempHex = GameActivity.grid.get(posArray-hpr+1);
-            if(tempHex.hexagon.centerColor != game.turnColor) {
-                if(tempHex.hexagon.centerColor == game.noturnColor) {
-                    game.scoreUpdate(true);
-                } else {
-                    game.scoreUpdate(false);
-                }
-                tempHex.hexagon.centerColor = game.turnColor;
-                tempHex.invalidate();
-            }
+        if((tempHex = UpperRightHexagon(hpr, offsetArray)) != null) {
+            tempHex.ChangeColor();
         }
 
         //Anterior
-        if(posArray-1>=0 && GameActivity.grid.get(posArray-1).posY==posY) {
-            tempHex = GameActivity.grid.get(posArray-1);
-            if(tempHex.hexagon.centerColor != game.turnColor) {
-                if(tempHex.hexagon.centerColor == game.noturnColor) {
-                    game.scoreUpdate(true);
-                } else {
-                    game.scoreUpdate(false);
-                }
-                tempHex.hexagon.centerColor = game.turnColor;
-                tempHex.invalidate();
-            }
+        if((tempHex = LeftHexagon()) != null) {
+            tempHex.ChangeColor();
         }
 
         //Siguiente
-        if(posArray+1<gridSize && GameActivity.grid.get(posArray+1).posY==posY) {
-            tempHex = GameActivity.grid.get(posArray+1);
-            if(tempHex.hexagon.centerColor != game.turnColor) {
-                if(tempHex.hexagon.centerColor == game.noturnColor) {
-                    game.scoreUpdate(true);
-                } else {
-                    game.scoreUpdate(false);
-                }
-                tempHex.hexagon.centerColor = game.turnColor;
-                tempHex.invalidate();
-            }
+        if((tempHex = RightHexagon(gridSize)) != null) {
+            tempHex.ChangeColor();
         }
 
         //Inferior izquierdo
-        if(posArray+hpr-1<gridSize && GameActivity.grid.get(posArray+hpr-1).posX==posX-offsetArray) {
-            tempHex = GameActivity.grid.get(posArray+hpr-1);
-            if(tempHex.hexagon.centerColor != game.turnColor) {
-                if(tempHex.hexagon.centerColor == game.noturnColor) {
-                    game.scoreUpdate(true);
-                } else {
-                    game.scoreUpdate(false);
-                }
-                tempHex.hexagon.centerColor = game.turnColor;
-                tempHex.invalidate();
-            }
+        if((tempHex = LowerLeftHexagon(hpr, gridSize, offsetArray)) != null) {
+            tempHex.ChangeColor();
         }
 
         //Inferior derecho
-        if(posArray+hpr<gridSize && GameActivity.grid.get(posArray+hpr).posX==posX+1-offsetArray) {
-            tempHex = GameActivity.grid.get(posArray+hpr);
-            if(tempHex.hexagon.centerColor != game.turnColor) {
-                if(tempHex.hexagon.centerColor == game.noturnColor) {
-                    game.scoreUpdate(true);
-                } else {
-                    game.scoreUpdate(false);
-                }
-                tempHex.hexagon.centerColor = game.turnColor;
-                tempHex.invalidate();
-            }
+        if((tempHex = LowerRightHexagon(hpr, gridSize, offsetArray)) != null) {
+            tempHex.ChangeColor();
         }
     }
+
+
 
     /**
      * Comprueba si el hexágono es conquistable, recorre todos los hexagonos vecinos y si hay mas del color contrario
      * que del propio, este es conquistado. Debe estar rodeado por mas de un hexágono del oponente.
      */
-    public void testConquerArround() {
+    public void testConquerAround() {
         int hpr = GameActivity.HEXAGONS_PER_ROW;
         int gridSize = GameActivity.grid.size();
-        int numArroundTurn = 0;
-        int numArroundNoTurn = 0;
+        Integer numAroundTurn = 0;
+        Integer numAroundNoTurn = 0;
         int offsetArray=0;
+        HexagonView tempHex;
 
         //Si el hexagono no es conquistable salimos
         if(this.hexagon.centerColor!=game.noturnColor)
@@ -270,54 +221,48 @@ public class HexagonView extends View implements View.OnClickListener{
 
         //Comenzamos a contar los colores que reodean al hexagono.
 
-        //Superior izquierdo
-        if(posArray-hpr>=0 && GameActivity.grid.get(posArray-hpr).posX==posX-offsetArray) {
-            numArroundTurn += (GameActivity.grid.get(posArray - hpr).hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numArroundNoTurn += (GameActivity.grid.get(posArray - hpr).hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        if((tempHex = UpperLeftHexagon(hpr, offsetArray)) != null) {
+            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
         }
 
-        //Superior derecho
-        if(posArray-hpr+1>=0 && GameActivity.grid.get(posArray-hpr+1).posX==posX+1-offsetArray) {
-            numArroundTurn += (GameActivity.grid.get(posArray - hpr + 1).hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numArroundNoTurn += (GameActivity.grid.get(posArray - hpr + 1).hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        if((tempHex = UpperRightHexagon(hpr, offsetArray)) != null) {
+            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
         }
 
-        //Anterior
-        if(posArray-1>=0 && GameActivity.grid.get(posArray-1).posY==posY) {
-            numArroundTurn += (GameActivity.grid.get(posArray - 1).hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numArroundNoTurn += (GameActivity.grid.get(posArray - 1).hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        if((tempHex = LeftHexagon()) != null) {
+            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
         }
 
-        //Siguiente
-        if(posArray+1<gridSize && GameActivity.grid.get(posArray+1).posY==posY) {
-            numArroundTurn += (GameActivity.grid.get(posArray + 1).hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numArroundNoTurn += (GameActivity.grid.get(posArray + 1).hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        if((tempHex = RightHexagon(gridSize)) != null) {
+            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
         }
 
-        //Inferior izquierdo
-        if(posArray+hpr-1<gridSize && GameActivity.grid.get(posArray+hpr-1).posX==posX-offsetArray) {
-            numArroundTurn += (GameActivity.grid.get(posArray + hpr - 1).hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numArroundNoTurn += (GameActivity.grid.get(posArray + hpr - 1).hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        if((tempHex = LowerLeftHexagon(hpr, gridSize, offsetArray)) != null) {
+            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
         }
 
-        //Inferior derecho
-        if(posArray+hpr<gridSize && GameActivity.grid.get(posArray+hpr).posX==posX+1-offsetArray) {
-            numArroundTurn += (GameActivity.grid.get(posArray + hpr).hexagon.centerColor == game.turnColor) ? 1 : 0;
-            numArroundNoTurn += (GameActivity.grid.get(posArray + hpr).hexagon.centerColor == game.noturnColor) ? 1 : 0;
+        if((tempHex = LowerRightHexagon(hpr, gridSize, offsetArray)) != null) {
+            numAroundTurn += (tempHex.hexagon.centerColor == game.turnColor) ? 1 : 0;
+            numAroundNoTurn += (tempHex.hexagon.centerColor == game.noturnColor) ? 1 : 0;
         }
 
         //Debe estar rodeado por más de un hexágono del oponente para poder ser conquistado.
-        if(numArroundNoTurn==0 && numArroundTurn==1)
+        if(numAroundNoTurn==0 && numAroundTurn==1)
             return;
 
         //Si hay mas hexagonos del color del turno que del que no tiene el turno, conquistamos.
-        if(numArroundTurn > numArroundNoTurn) {
+        if(numAroundTurn > numAroundNoTurn) {
             this.hexagon.centerColor = game.turnColor;   //Se conquista el hexágono cambiandole el color.
             this.testConquer(); //Volvemos a comprobar si conquistamos cualquier hexágono (Reiterativamente)
             this.invalidate();
             game.scoreUpdate(true);  //Actualizamos la puntucación
         }
-    }//testConquerArround
+    }//testConquerAround
 
     /**
      * Comprobamos si conquistamos algún hexagono
@@ -326,7 +271,67 @@ public class HexagonView extends View implements View.OnClickListener{
         //Comprobamos todos los hexágonos del array.
         for(HexagonView hex : GameActivity.grid)
          {
-             hex.testConquerArround();
+             hex.testConquerAround();
          }
+    }
+
+    public void ChangeColor() {
+        if(this.hexagon.centerColor != game.turnColor) {
+            if(this.hexagon.centerColor == game.noturnColor) {
+                game.scoreUpdate(true);
+            } else {
+                game.scoreUpdate(false);
+            }
+            this.hexagon.centerColor = game.turnColor;
+            this.invalidate();
+        }
+    }
+
+    public HexagonView LowerRightHexagon(int hpr, int gridSize, int offsetArray) {
+        HexagonView toRet = null;
+        if(posArray+hpr<gridSize && GameActivity.grid.get(posArray+hpr).posX==posX+1-offsetArray){
+            toRet = GameActivity.grid.get(posArray+hpr);
+        }
+        return toRet;
+    }
+
+    public HexagonView LowerLeftHexagon(int hpr, int gridSize, int offsetArray) {
+        HexagonView toRet = null;
+        if(posArray+hpr-1<gridSize && GameActivity.grid.get(posArray+hpr-1).posX==posX-offsetArray){
+            toRet = GameActivity.grid.get(posArray+hpr - 1);
+        }
+        return toRet;
+    }
+
+    public HexagonView RightHexagon(int gridSize) {
+        HexagonView toRet = null;
+        if( posArray+1<gridSize && GameActivity.grid.get(posArray+1).posY==posY) {
+            toRet = GameActivity.grid.get(posArray + 1);
+        }
+        return toRet;
+    }
+
+    public HexagonView LeftHexagon() {
+        HexagonView toRet = null;
+        if(posArray-1>=0 && GameActivity.grid.get(posArray-1).posY==posY) {
+            toRet = GameActivity.grid.get(posArray - 1);
+        }
+        return toRet;
+    }
+
+    public HexagonView UpperRightHexagon(int hpr, int offsetArray) {
+        HexagonView toRet = null;
+        if(posArray-hpr+1>=0 && GameActivity.grid.get(posArray-hpr+1).posX==posX+1-offsetArray) {
+            toRet = GameActivity.grid.get(posArray - hpr + 1);
+        }
+        return toRet;
+    }
+
+    public HexagonView UpperLeftHexagon(int hpr, int offsetArray) {
+        HexagonView toRet = null;
+        if(posArray-hpr>=0 && GameActivity.grid.get(posArray-hpr).posX==posX-offsetArray){
+            toRet = GameActivity.grid.get(posArray-hpr);
+        }
+        return toRet;
     }
 }
