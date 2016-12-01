@@ -204,9 +204,10 @@ public class HexagonView extends View implements View.OnClickListener{
      * que del propio, este es conquistado. Debe estar rodeado por mas de un hexágono del oponente.
      */
     public void testConquerAround() {
-
-        Integer numAllies = 0;
-        Integer numEnemies = 0;
+        //allies of the player who is playing this turn
+        int numAllies = 0;
+        //enemies of the player who is playing this turn
+        int numEnemies = 0;
 
         //Si el hexagono no es conquistable salimos
         if(this.hexagon.centerColor!=game.noturnColor)
@@ -236,8 +237,10 @@ public class HexagonView extends View implements View.OnClickListener{
 
         int hpr = GameActivity.HEXAGONS_PER_ROW;
         int gridSize = GameActivity.grid.size();
-        Integer numAllies = 0;
+        int numAllies = 0;
         int offsetArray=0;
+        //Offset, para la corrección de las filas pares, ya que en estas están desplazadas con respecto a las impares
+        offsetArray = (posY%2 == 0)? 1 : 0;
         HexagonView tempHex;
 
         if((tempHex = UpperLeftHexagon(hpr, offsetArray)) != null) {
@@ -274,8 +277,10 @@ public class HexagonView extends View implements View.OnClickListener{
     public int countEnemies() {
         int hpr = GameActivity.HEXAGONS_PER_ROW;
         int gridSize = GameActivity.grid.size();
-        Integer numEnemies = 0;
+        int numEnemies = 0;
         int offsetArray=0;
+        //Offset, para la corrección de las filas pares, ya que en estas están desplazadas con respecto a las impares
+        offsetArray = (posY%2 == 0)? 1 : 0;
         HexagonView tempHex;
 
         if((tempHex = UpperLeftHexagon(hpr, offsetArray)) != null) {
