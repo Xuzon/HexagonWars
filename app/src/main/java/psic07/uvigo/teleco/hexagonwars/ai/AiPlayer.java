@@ -1,5 +1,9 @@
 package psic07.uvigo.teleco.hexagonwars.ai;
 
+import java.net.HttpRetryException;
+import java.util.ArrayList;
+import java.util.Random;
+
 import psic07.uvigo.teleco.hexagonwars.GameActivity;
 import psic07.uvigo.teleco.hexagonwars.HexagonDrawable;
 import psic07.uvigo.teleco.hexagonwars.HexagonView;
@@ -27,27 +31,31 @@ public class AiPlayer {
 
     public void Turn(){
         float higherValue = -1;
-        int gridHigherPos = -1;
+        ArrayList<HexagonView> candidates = new ArrayList<>();
         for(int i = 0; i < GameActivity.grid.size(); i++) {
             HexagonView hex = GameActivity.grid.get(i);
-
-            if(game.superTokenOn) {
-                //TODO: AI select hexagon with superToken
-            }
 
             //if I don't have the superToken and is not transparent I could not conquer it
             if(!game.superTokenOn && (hex.hexagon.centerColor != HexagonDrawable.transparent)){
                 continue;
             }
-            float value = hex.intelligence.Utility(this);
+            float value = hex.intelligence.Utility(this,game.superTokenOn);
             if(value > higherValue){
-                gridHigherPos = i;
+                candidates.clear();
                 higherValue = value;
             }
+            if(value >= higherValue){
+                candidates.add(hex);
+            }
         }
-        if(gridHigherPos < GameActivity.grid.size() && gridHigherPos >= 0) {
-            HexagonView hex = GameActivity.grid.get(gridHigherPos);
-            hex.ConquerMe();
+        if(candidates.size() > 0) {
+            Random random = new Random();
+            HexagonView hexToConquer = candidates.get(random.nextInt(candidates.size()));
+            if (hexToConquer != null) {
+                hexToConquer.ConquerMe();
+            }
+        }else{
+            System.out.println("YOLO");
         }
     }
 }

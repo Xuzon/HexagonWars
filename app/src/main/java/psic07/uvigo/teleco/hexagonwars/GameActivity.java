@@ -262,7 +262,7 @@ public class GameActivity extends AppCompatActivity {
         if((bottomPlayerScore.score + topPlayerScore.score) == grid.size()) {
 
             //Comprobamos si el oponete debe conquistar algo antes de terminar.
-            HexagonView.testConquer();
+            HexagonView.testConquer(false);
 
             if(bottomPlayerScore.score > topPlayerScore.score) {
                 alert("Finish", "The BOTTOM player WIN the game. Congratulations!!!!!");
