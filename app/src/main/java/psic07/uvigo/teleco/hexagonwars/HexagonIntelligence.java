@@ -27,9 +27,17 @@ public class HexagonIntelligence {
         for(HexagonView view : GameActivity.grid){
             myGrid.add(view.Clone());
         }
-        NearbyAlliesWeight = player.NearbyAlliesWeight;
-        NearbyEnemiesWeight = player.NearbyEnemiesWeight;
-        WillConquerWeight = player.WillConquerWeight;
+
+        if(superToken) {
+            NearbyAlliesWeight = 0;
+            NearbyEnemiesWeight = 0;
+            WillConquerWeight = 1;
+        }
+        else {
+            NearbyAlliesWeight = player.NearbyAlliesWeight;
+            NearbyEnemiesWeight = player.NearbyEnemiesWeight;
+            WillConquerWeight = player.WillConquerWeight;
+        }
         toRet += WillConquerValue(myGrid,superToken);
         toRet += NearbyAlliesValue();
         toRet += NearbyEnemiesValue();

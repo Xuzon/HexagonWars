@@ -27,6 +27,7 @@ public class HexagonView extends View implements View.OnClickListener{
     boolean hexScore = false; //Indica si el Hexagono es de partida o de Score
     int score = 0;
     GameActivity game;
+    boolean conquerable = false;
     /**
      * Constructor de hexagono genérico (Transparente)
      * @param context
@@ -98,6 +99,8 @@ public class HexagonView extends View implements View.OnClickListener{
 
         if(game.flag_fin) return;
 
+        boolean pintable = false;
+
         if(((GameActivity)this.getContext()).superTokenOn) {
             if(hexagon.centerColor==HexagonDrawable.transparent) {
                 hexagon.centerColor = game.turnColor;    //Cambiamos el color del hexágono actual
@@ -115,19 +118,28 @@ public class HexagonView extends View implements View.OnClickListener{
                 superToken(false,null);
                 testConquer(false);
             }
-            game.changeTurn();
+            pintable = true;
         } else if(hexagon.centerColor==HexagonDrawable.transparent) {
 
             hexagon.centerColor = game.turnColor;    //Cambiamos el color del hexágono actual
             testConquer(false);  //Comprobamos si tenemos que conquistar algún hexágono
             game.scoreUpdate(false); //Actualizamos la puntuación, pero no hay que restar la del oponente
-            game.changeTurn();
+            pintable = true;
         }
 
-        this.invalidate();
-        GameActivity.topPlayerScore.invalidate();
-        GameActivity.bottomPlayerScore.invalidate();
-        game.testFin();
+        //Si tenemos el superToken o el hexagono es tranparente debemos cambiar el turno y repintar el hexagono
+        //así como los scores.
+        if(pintable) {
+            this.invalidate();
+            GameActivity.topPlayerScore.invalidate();
+            GameActivity.bottomPlayerScore.invalidate();
+            if(game.testFin()) return;
+            game.changeTurn();
+
+        }
+        else {
+            System.out.println("No pintable");
+        }
 
     }
 
@@ -321,6 +333,7 @@ public class HexagonView extends View implements View.OnClickListener{
      * La función calcula cuantos hexagonos serian conquistados en total en caso de marcar el propio.
      * @return Número de hexagonos conquistados.
      */
+/*
     public int countHexConquer() {
 
         int ret = 0;
@@ -330,6 +343,7 @@ public class HexagonView extends View implements View.OnClickListener{
         return  ret;
 
     }
+*/
 
 
 

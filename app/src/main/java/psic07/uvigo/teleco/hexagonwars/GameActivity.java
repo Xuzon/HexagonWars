@@ -198,7 +198,7 @@ public class GameActivity extends AppCompatActivity {
 
         if(dif>3) {
             //prob = (59*1)/(scoreNoTurn-scoreTurn);
-            superTokenOn = (((int)(Math.random()*grid.size()))<=dif)? true : false;
+            superTokenOn = (((int)(Math.random()*grid.size()))<=dif*4)? true : false;
             //superTokenOn = (((int)(Math.random()*10))==1)? true : false;
         }
 
@@ -236,7 +236,7 @@ public class GameActivity extends AppCompatActivity {
             topPlayerScore.hexagon.setBorderColor(Color.WHITE);
             bottomPlayerScore.hexagon.setBorderColor(HexagonDrawable.defaultBorderColor);
             //Fin instrucciones temporales
-            aiPlayer.Turn();
+//            aiPlayer.Turn();
 
         } else {
             turnColor = InitActivity.bottomPlayerColor;
@@ -251,13 +251,18 @@ public class GameActivity extends AppCompatActivity {
 
         topPlayerScore.invalidate();
         bottomPlayerScore.invalidate();
+
+        if(turnColor == InitActivity.topPlayerColor) {
+            aiPlayer.Turn();
+        }
+
     }
 
     /**
      * Comprueba si se ha rellenado todo el grid.
      * En ese caso muestra un alert con el ganador.
      */
-    public void testFin() {
+    public boolean testFin() {
         //Comprobamos si se han cubierto todos los hexágonos y en ese caso quién sería el ganador.
         if((bottomPlayerScore.score + topPlayerScore.score) == grid.size()) {
 
@@ -272,6 +277,7 @@ public class GameActivity extends AppCompatActivity {
             }
             flag_fin=true;
         }
+        return flag_fin;
     }
 
     /**

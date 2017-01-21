@@ -53,6 +53,10 @@ public class AiPlayer {
             HexagonView hexToConquer = candidates.get(random.nextInt(candidates.size()));
             if (hexToConquer != null) {
                 hexToConquer.ConquerMe();
+                System.out.println("Conquisto el hexagono");
+            }
+            else {
+                System.out.println("Hexagono candidato NULO");
             }
         }else{
             System.out.println("YOLO");
