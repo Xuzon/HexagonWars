@@ -14,16 +14,12 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 
 public class OptionsActivity extends AppCompatActivity implements View.OnClickListener {
-    public final int optionsWindowSound = R.raw.dance;                //Path de sonido de la pestaña de opciones.
-    public final int buttonsSound = R.raw.click;                //Path de sonido de bottones.
     RelativeLayout layout;
     HexagonView playerHexagon;
     HexagonView pcHexagon;
     ImageButton c_b_left, c_b_right, p_b_left, p_b_right;
     Switch general_switch;
     Switch music_switch;
-    MediaPlayer clicksound;         //Media Player para sonido de los botones.
-    MediaPlayer optionssound;       //Media Player para sonido de  Opcines.
     static boolean allow_general_sound = true, allow_music_sound=true;
 
     @Override
@@ -55,10 +51,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-            allow_general_sound = isChecked;
-            if(allow_general_sound){
-                playClickSound();
-            } else{ if(clicksound!=null)clicksound.release();}
+                InitActivity.sounds.isMusicActive = isChecked;
 
             }
         });
@@ -66,11 +59,11 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                allow_music_sound = isChecked;
-                if (allow_music_sound) {
-                    playOptionsSound();
+                InitActivity.sounds.isMusicActive = isChecked;
+                if (InitActivity.sounds.isMusicActive) {
+                    InitActivity.sounds.SoundSelection(1);
                 } else {
-                    optionssound.release();
+                    InitActivity.sounds.SoundSelection(-1);
                 }
             }
         });
@@ -108,7 +101,7 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-       if(allow_general_sound) playClickSound();
+        InitActivity.sounds.SoundSelection(2);
         int index;
         switch (view.getId())
         {
@@ -150,42 +143,6 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
                 playerHexagon.invalidate();
                 break;
         }
-    }
-
-    //Funcion que se encarga de reproducir el sonido de los botones.
-    private void playClickSound() {
-        clicksound = MediaPlayer.create(this, buttonsSound);
-        clicksound.start();
-    }
-    //Funcion que se encarga de reproducir el sonido de los opciones.
-    private void playOptionsSound() {
-        optionssound = MediaPlayer.create(this,optionsWindowSound);
-        optionssound.setLooping(true);
-        optionssound.start();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (optionssound != null) {
-            optionssound.release();
-        }
-        super.onPause();
-    }
-
-    //Funcion que vuelve a definir el media player en caso de volver a las opciones.
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if(optionssound == null) {
-            playOptionsSound();
-        }
-    }
-    //Funcion  que vuelve a reproducir sonido en caso de volver a la ventana de las opciones.
-    @Override
-    protected void onResume() {
-        super.onResume();
-            playOptionsSound();
     }
 
 }

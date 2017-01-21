@@ -34,8 +34,6 @@ import java.util.LinkedList;
 public class InitActivity extends AppCompatActivity implements View.OnClickListener {
     public static int topPlayerColor = HexagonDrawable.blueColor;       //Color del jugador top
     public static int bottomPlayerColor = HexagonDrawable.redColor;     //Color del jugador bottom
-    public final int initialSound = R.raw.dance;                //Path de sonido inicial.
-    public final int buttonsSound = R.raw.click;                //Path de sonido de bottones.
     public final static String scorePath ="/sdcard/HexagonWars";
     public final static String scoreFile ="score.txt";
 
@@ -45,9 +43,9 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     TextView about,wins,loses;
     public static int screenWidth = 0;
     public static int screenHeight = 0;
-    MediaPlayer initsound;               //Creamos mediaplayer para el sonido inicial.
-    MediaPlayer clicksound;              //Creamos mediaplayer para el sonido de los botones.
     OptionsActivity optionsActivity = new OptionsActivity();
+    static Sounds sounds;
+
 
     public static LinkedList<Integer> colors = new LinkedList<Integer>();
 
@@ -124,7 +122,9 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
+      //  sounds.createSounds();
+        sounds =  new Sounds(this);
+        sounds.SoundSelection(1);
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -244,12 +244,11 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
         //En caso de pulsar cualquier boton, reproducimos el sonido.
-        playClickSound();
+        sounds.SoundSelection(2);
 
         switch (view.getId())
         {
             case(R.id.new_game):
-                initsound.release();      //Paramos el sonido inicial.
                 Intent game=new Intent(getApplicationContext(),GameActivity.class);
                 startActivity(game);
                 break;
@@ -288,46 +287,8 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
         alertDialog.show();
     }
 
-
-    //Funcion que se encarga de reproducir el sonido inicial.
-    private void playInitSound() {
-            if (initsound != null) initsound.release();
-            initsound = MediaPlayer.create(this, initialSound);
-            initsound.setLooping(true);
-            initsound.start();
-    }
-    //Funcion que se encarga de reproducir el sonido inicial.
-    private void playClickSound() {
-            clicksound = MediaPlayer.create(this, buttonsSound);
-            clicksound.start();
-    }
-
-    //Funcion que se encarga de liberar los media player en caso de que la aplicación se cierre o estea en segundo plano.
-    @Override
-    protected void onPause() {
-        super.onPause();
-      initsound.release();
-        clicksound.release();
-    }
-
-    //Funcion que vuelve a definir el media player en caso de volver al inicio.
-    @Override
-    protected void onPostResume() {
-        if(initsound == null) {
-            playInitSound();
-        }
-        super.onPostResume();
-    }
-    //Funcion  que vuelve a reproducir sonido en caso de volver a la ventana anterior
     @Override
     protected void onResume() {
-        if (optionsActivity.allow_music_sound) {
-            playInitSound();
-        }
-        if (optionsActivity.allow_general_sound) {
-            playClickSound();
-        }
-
         wins.setText(historico_ganado+"");
         loses.setText(historico_perdido+"");
 

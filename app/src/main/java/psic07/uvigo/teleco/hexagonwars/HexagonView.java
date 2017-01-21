@@ -160,6 +160,9 @@ public class HexagonView extends View implements View.OnClickListener{
      * Listener de cada Hexágono
      */
     public void onClick(View v) {
+
+        InitActivity.sounds.SoundSelection(2);
+
         //just for be sure v has to be me but you'll never know XD
         if(v instanceof HexagonView){
             HexagonView hex = (HexagonView) v;

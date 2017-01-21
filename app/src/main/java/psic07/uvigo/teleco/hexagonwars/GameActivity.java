@@ -19,8 +19,7 @@ import java.util.ArrayList;
 import psic07.uvigo.teleco.hexagonwars.ai.AiPlayer;
 
 public class GameActivity extends AppCompatActivity {
-    public final int gameWindowSound = R.raw.epic;                //Path de sonido de la pestaña de juego.
-    public final int hexagonSelectionSound = R.raw.click;                //Path de sonido de hexagonos.
+
     RelativeLayout layout;
     int resultado_win,resultado_lose;
     public static int SIZE = 150;
@@ -36,8 +35,6 @@ public class GameActivity extends AppCompatActivity {
     public boolean flag_fin = false;  //Flag de fin de juego.
     public boolean superTokenOn = false; //flag de token (Para el que tiene el turno)
     public ImageView imgTokenTopL, imgTokenBottomL, imgTokenTopR, imgTokenBottomR; //Imagen de los tokens.
-    MediaPlayer gamesound;               //Creamos mediaplayer para el sonido inicial.
-    MediaPlayer hexagonsound;              //Creamos mediaplayer para el sonido de los hexagonos
     OptionsActivity optionsActivity = new OptionsActivity();
 
     public AiPlayer aiPlayer;
@@ -335,44 +332,44 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-
-    //Funcion que se encarga de reproducir el sonido de la area de juego.
-    private void playGameWindowSound() {
-        if (optionsActivity.allow_music_sound) {
-            gamesound = MediaPlayer.create(this, gameWindowSound);
-            gamesound.setLooping(true);
-            gamesound.start();
-        }
-    }
-
-    //Funcion que se encarga de reproducir el sonido de los botones.
-    private void playHexagonSelectionSound() {
-        hexagonsound = MediaPlayer.create(this,hexagonSelectionSound);
-        hexagonsound.start();
-    }
-
-    @Override
-    protected void onStop() {
-        if (gamesound != null && gamesound.isPlaying()) {
-            gamesound.stop();
-        }
-        super.onPause();
-    }
-
-    //Funcion que vuelve a definir el media player en caso de volver a la area de juego.
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if(gamesound == null) {
-            playGameWindowSound();
-        }
-    }
-    //Funcion  que vuelve a reproducir sonido en caso de volver a la ventana anterior
-    @Override
-    protected void onResume() {
-        super.onResume();
-        playGameWindowSound();
-    }
+//
+//    //Funcion que se encarga de reproducir el sonido de la area de juego.
+//    private void playGameWindowSound() {
+//        if (optionsActivity.allow_music_sound) {
+//            gamesound = MediaPlayer.create(this, gameWindowSound);
+//            gamesound.setLooping(true);
+//            gamesound.start();
+//        }
+//    }
+//
+//    //Funcion que se encarga de reproducir el sonido de los botones.
+//    private void playHexagonSelectionSound() {
+//        hexagonsound = MediaPlayer.create(this,hexagonSelectionSound);
+//        hexagonsound.start();
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        if (gamesound != null && gamesound.isPlaying()) {
+//            gamesound.stop();
+//        }
+//        super.onPause();
+//    }
+//
+//    //Funcion que vuelve a definir el media player en caso de volver a la area de juego.
+//    @Override
+//    protected void onPostResume() {
+//        super.onPostResume();
+//        if(gamesound == null) {
+//            playGameWindowSound();
+//        }
+//    }
+//    //Funcion  que vuelve a reproducir sonido en caso de volver a la ventana anterior
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        playGameWindowSound();
+//    }
 
 
 
