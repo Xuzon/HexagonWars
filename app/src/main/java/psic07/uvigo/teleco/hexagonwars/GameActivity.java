@@ -269,15 +269,14 @@ public class GameActivity extends AppCompatActivity {
             HexagonView.testConquer(false);
 
             if (bottomPlayerScore.score > topPlayerScore.score) {
-                resultado_win = Integer.parseInt(InitActivity.historico_ganado) + 1;
-                resultado_lose = Integer.parseInt(InitActivity.historico_perdido);
+                InitActivity.historico_ganado++;
                 alert("Finish", "The BOTTOM player WIN the game. Congratulations!!!!!");
             }
             if (bottomPlayerScore.score < topPlayerScore.score) {
-                resultado_win = Integer.parseInt(InitActivity.historico_ganado);
-                resultado_lose = Integer.parseInt(InitActivity.historico_perdido) + 1;
+                InitActivity.historico_perdido++;
                 alert("Finish", "The TOP player WIN the game. Congratulations!!!!!");
             }
+
             try
             {
                 File path = new File(InitActivity.scorePath);
@@ -289,9 +288,8 @@ public class GameActivity extends AppCompatActivity {
                     file.createNewFile();
                 }
                 BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-                bw.write(resultado_win+"\n");
-                bw.write(resultado_lose+"\n");
-                System.out.println("He guardado");
+                bw.write(InitActivity.historico_ganado+"\n");
+                bw.write(InitActivity.historico_perdido+"\n");
                 bw.close();
             }
             catch (Exception ex)

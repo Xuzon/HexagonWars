@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,8 +41,7 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
 
     Button newgame,options,rules;
     String marcador;
-    String ruta="/sdcard/HexagonWars/score.txt";
-    public static String historico_ganado,historico_perdido;
+    public static int historico_ganado,historico_perdido;
     TextView about,wins,loses;
     public static int screenWidth = 0;
     public static int screenHeight = 0;
@@ -156,21 +157,21 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
         //Lectura del fichero para el marcador
         try
         {
-            BufferedReader buff=new BufferedReader(new InputStreamReader(openFileInput(ruta)));
-            historico_ganado=buff.readLine();
-            System.out.println(historico_ganado);
-            wins.setText(historico_ganado);
-            historico_perdido=buff.readLine();
-            System.out.println(historico_ganado);
-            loses.setText(historico_perdido);
+            File path = new File(scorePath);
+            File file = new File(path, scoreFile);
+            BufferedReader buff=new BufferedReader(new FileReader(file));
+            historico_ganado = Integer.parseInt(buff.readLine());
+            wins.setText(historico_ganado+"");
+            historico_perdido = Integer.parseInt(buff.readLine());
+            loses.setText(historico_perdido+"");
             buff.close();
         }
         catch (Exception e)
         {
-            historico_ganado="0";
-            historico_perdido="0";
-            wins.setText(historico_ganado);
-            loses.setText(historico_perdido);
+            historico_ganado = 0;
+            historico_perdido = 0;
+            wins.setText(historico_ganado+"");
+            loses.setText(historico_perdido+"");
         }
        // mControlsView = findViewById(R.id.fullscreen_content_controls);
         //mContentView = findViewById(R.id.fullscreen_content);
@@ -326,6 +327,10 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
         if (optionsActivity.allow_general_sound) {
             playClickSound();
         }
+
+        wins.setText(historico_ganado+"");
+        loses.setText(historico_perdido+"");
+
         super.onResume();
     }
 }
