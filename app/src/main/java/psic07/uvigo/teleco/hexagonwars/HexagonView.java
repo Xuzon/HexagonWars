@@ -137,9 +137,6 @@ public class HexagonView extends View implements View.OnClickListener{
             game.changeTurn();
 
         }
-        else {
-            System.out.println("No pintable");
-        }
 
     }
 
@@ -430,4 +427,13 @@ public class HexagonView extends View implements View.OnClickListener{
         toRet.hexagon.centerColor = this.hexagon.centerColor;
         return   toRet;
     }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
 }

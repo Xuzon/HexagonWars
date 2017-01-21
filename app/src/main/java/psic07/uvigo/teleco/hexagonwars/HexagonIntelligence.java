@@ -41,6 +41,10 @@ public class HexagonIntelligence {
         toRet += WillConquerValue(myGrid,superToken);
         toRet += NearbyAlliesValue();
         toRet += NearbyEnemiesValue();
+
+
+
+
         return toRet;
     }
 

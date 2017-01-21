@@ -34,6 +34,9 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     public static int bottomPlayerColor = HexagonDrawable.redColor;     //Color del jugador bottom
     public final int initialSound = R.raw.dance;                //Path de sonido inicial.
     public final int buttonsSound = R.raw.click;                //Path de sonido de bottones.
+    public final static String scorePath ="/sdcard/HexagonWars";
+    public final static String scoreFile ="score.txt";
+
     Button newgame,options,rules;
     String marcador;
     String ruta="/sdcard/HexagonWars/score.txt";

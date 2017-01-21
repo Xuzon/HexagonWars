@@ -14,9 +14,9 @@ import psic07.uvigo.teleco.hexagonwars.HexagonView;
 
 public class AiPlayer {
     GameActivity game;
-    public float NearbyAlliesWeight = 0.33f;
-    public float NearbyEnemiesWeight = 0.33f;
-    public float WillConquerWeight = 0.33f;
+    public float NearbyAlliesWeight = 0.10f;
+    public float NearbyEnemiesWeight = 0.10f;
+    public float WillConquerWeight = 0.80f;
 
     public AiPlayer(GameActivity game){
         this.game = game;
@@ -53,10 +53,7 @@ public class AiPlayer {
             HexagonView hexToConquer = candidates.get(random.nextInt(candidates.size()));
             if (hexToConquer != null) {
                 hexToConquer.ConquerMe();
-                System.out.println("Conquisto el hexagono");
-            }
-            else {
-                System.out.println("Hexagono candidato NULO");
+                System.out.println("Conquisto el hexagono de Fila "+hexToConquer.getPosY()+" y Columna "+hexToConquer.getPosX());
             }
         }else{
             System.out.println("YOLO");

@@ -1,23 +1,19 @@
 package psic07.uvigo.teleco.hexagonwars;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.view.WindowManager;
-import android.util.DisplayMetrics;
 
-import java.io.OutputStreamWriter;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 import psic07.uvigo.teleco.hexagonwars.ai.AiPlayer;
@@ -28,7 +24,6 @@ public class GameActivity extends AppCompatActivity {
     RelativeLayout layout;
     int resultado_win,resultado_lose;
     public static int SIZE = 150;
-    String ruta="/sdcard/HexagonWars/score.txt";
     public final static int HEXAGONS_PER_ROW = 7;
     public final static int ROWS = 9;
     public static HexagonView topPlayerScore;
@@ -202,7 +197,7 @@ public class GameActivity extends AppCompatActivity {
 
         if(dif>3) {
             //prob = (59*1)/(scoreNoTurn-scoreTurn);
-            superTokenOn = (((int)(Math.random()*grid.size()))<=dif*4)? true : false;
+            superTokenOn = (((int)(Math.random()*grid.size()))<=dif)? true : false;
             //superTokenOn = (((int)(Math.random()*10))==1)? true : false;
         }
 
@@ -273,27 +268,35 @@ public class GameActivity extends AppCompatActivity {
             //Comprobamos si el oponete debe conquistar algo antes de terminar.
             HexagonView.testConquer(false);
 
-            if(bottomPlayerScore.score > topPlayerScore.score) {
-                resultado_win=Integer.parseInt(InitActivity.historico_ganado)+1;
-                resultado_lose=Integer.parseInt(InitActivity.historico_perdido);
+            if (bottomPlayerScore.score > topPlayerScore.score) {
+                resultado_win = Integer.parseInt(InitActivity.historico_ganado) + 1;
+                resultado_lose = Integer.parseInt(InitActivity.historico_perdido);
                 alert("Finish", "The BOTTOM player WIN the game. Congratulations!!!!!");
             }
-            if(bottomPlayerScore.score < topPlayerScore.score) {
-                resultado_win=Integer.parseInt(InitActivity.historico_ganado);
-                resultado_lose=Integer.parseInt(InitActivity.historico_perdido)+1;
+            if (bottomPlayerScore.score < topPlayerScore.score) {
+                resultado_win = Integer.parseInt(InitActivity.historico_ganado);
+                resultado_lose = Integer.parseInt(InitActivity.historico_perdido) + 1;
                 alert("Finish", "The TOP player WIN the game. Congratulations!!!!!");
             }
             try
             {
-                OutputStreamWriter fout = new OutputStreamWriter(openFileOutput(ruta,Context.MODE_PRIVATE));
-                fout.write(resultado_win+"\n");
-                fout.write(resultado_lose+"\n");
+                File path = new File(InitActivity.scorePath);
+                if(!path.exists()) {
+                    path.mkdirs();
+                }
+                File file = new File(path, InitActivity.scoreFile);
+                if(!file.exists()) {
+                    file.createNewFile();
+                }
+                BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+                bw.write(resultado_win+"\n");
+                bw.write(resultado_lose+"\n");
                 System.out.println("He guardado");
-                fout.close();
+                bw.close();
             }
             catch (Exception ex)
             {
-                System.out.println(ex);
+                ex.printStackTrace();
             }
             flag_fin=true;
         }
