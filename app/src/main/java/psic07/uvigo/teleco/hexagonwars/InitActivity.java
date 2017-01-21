@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,16 +14,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.LinkedList;
 
 /**
@@ -124,7 +118,7 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
 
       //  sounds.createSounds();
         sounds =  new Sounds(this);
-        sounds.SoundSelection(1);
+        sounds.SoundSelection(Sounds.musicGame);
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -244,7 +238,7 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
         //En caso de pulsar cualquier boton, reproducimos el sonido.
-        sounds.SoundSelection(2);
+        sounds.SoundSelection(Sounds.soundButtons);
 
         switch (view.getId())
         {
@@ -288,7 +282,16 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onPause() {
+        sounds.SoundSelection(Sounds.musicGamePause);
+        super.onRestart();
+    }
+
+
+    @Override
     protected void onResume() {
+
+        sounds.SoundSelection(Sounds.musicGameRestart);
         wins.setText(historico_ganado+"");
         loses.setText(historico_perdido+"");
 

@@ -20,7 +20,6 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
     ImageButton c_b_left, c_b_right, p_b_left, p_b_right;
     Switch general_switch;
     Switch music_switch;
-    static boolean allow_general_sound = true, allow_music_sound=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +46,17 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
         p_b_left.setOnClickListener(this);
         p_b_right.setOnClickListener(this);
 
+        general_switch.setChecked(InitActivity.sounds.isSoundActive);
+        music_switch.setChecked(InitActivity.sounds.isMusicActive);
+
+
+
+
         general_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() { //Listner para el switch de sonido general.
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                InitActivity.sounds.isMusicActive = isChecked;
+                InitActivity.sounds.isSoundActive = isChecked;
 
             }
         });
@@ -61,12 +66,15 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
 
                 InitActivity.sounds.isMusicActive = isChecked;
                 if (InitActivity.sounds.isMusicActive) {
-                    InitActivity.sounds.SoundSelection(1);
+                    InitActivity.sounds.SoundSelection(Sounds.musicGameRestart);
                 } else {
-                    InitActivity.sounds.SoundSelection(-1);
+                    InitActivity.sounds.SoundSelection(Sounds.musicGamePause);
                 }
+
             }
         });
+
+
 
     }
     public void onWindowFocusChanged (boolean hasFocus) {
@@ -143,6 +151,19 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
                 playerHexagon.invalidate();
                 break;
         }
+    }
+
+
+    @Override
+    protected  void onResume() {
+        InitActivity.sounds.SoundSelection(Sounds.musicGameRestart);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        InitActivity.sounds.SoundSelection(Sounds.musicGamePause);
+        super.onRestart();
     }
 
 }

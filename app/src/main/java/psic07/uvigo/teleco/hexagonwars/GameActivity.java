@@ -3,7 +3,6 @@ package psic07.uvigo.teleco.hexagonwars;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -267,11 +266,13 @@ public class GameActivity extends AppCompatActivity {
 
             if (bottomPlayerScore.score > topPlayerScore.score) {
                 InitActivity.historico_ganado++;
-                alert("Finish", "The BOTTOM player WIN the game. Congratulations!!!!!");
+                InitActivity.sounds.SoundSelection(Sounds.soundWinner);
+                alert("Finish", "You WIN the game. Congratulations!!!!!");
             }
             if (bottomPlayerScore.score < topPlayerScore.score) {
                 InitActivity.historico_perdido++;
-                alert("Finish", "The TOP player WIN the game. Congratulations!!!!!");
+                InitActivity.sounds.SoundSelection(Sounds.soundLoser);
+                alert("Finish", "The IA WIN the game. YOU ARE A LOSER!!!!!");
             }
 
             try
@@ -370,6 +371,18 @@ public class GameActivity extends AppCompatActivity {
 //        super.onResume();
 //        playGameWindowSound();
 //    }
+
+    @Override
+    protected  void onResume() {
+        InitActivity.sounds.SoundSelection(Sounds.musicGameRestart);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        InitActivity.sounds.SoundSelection(Sounds.musicGamePause);
+        super.onRestart();
+    }
 
 
 

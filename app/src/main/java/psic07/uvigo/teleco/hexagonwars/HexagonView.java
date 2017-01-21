@@ -102,6 +102,7 @@ public class HexagonView extends View implements View.OnClickListener{
         boolean pintable = false;
 
         if(((GameActivity)this.getContext()).superTokenOn) {
+            InitActivity.sounds.SoundSelection(Sounds.soundBoom);
             if(hexagon.centerColor==HexagonDrawable.transparent) {
                 hexagon.centerColor = game.turnColor;    //Cambiamos el color del hexágono actual
                 superToken(false,null);
@@ -120,7 +121,7 @@ public class HexagonView extends View implements View.OnClickListener{
             }
             pintable = true;
         } else if(hexagon.centerColor==HexagonDrawable.transparent) {
-
+            InitActivity.sounds.SoundSelection(Sounds.soundConquer);
             hexagon.centerColor = game.turnColor;    //Cambiamos el color del hexágono actual
             testConquer(false);  //Comprobamos si tenemos que conquistar algún hexágono
             game.scoreUpdate(false); //Actualizamos la puntuación, pero no hay que restar la del oponente
@@ -160,9 +161,6 @@ public class HexagonView extends View implements View.OnClickListener{
      * Listener de cada Hexágono
      */
     public void onClick(View v) {
-
-        InitActivity.sounds.SoundSelection(2);
-
         //just for be sure v has to be me but you'll never know XD
         if(v instanceof HexagonView){
             HexagonView hex = (HexagonView) v;

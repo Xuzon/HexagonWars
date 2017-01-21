@@ -1,9 +1,11 @@
 package psic07.uvigo.teleco.hexagonwars;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+
+import java.io.IOException;
 
 /**
  * Created by Waheed on 21/01/2017.
@@ -14,16 +16,29 @@ public class Sounds extends AppCompatActivity {
     public final int gameSoundPath = R.raw.epic;                //Path de sonido de juego.
     public final int buttonsSoundPath = R.raw.click;                //Path de sonido de bottones.
     public final int hexagonconquerSoundPath = R.raw.sms;                //Path de sonido de la conquista de hexagono.
-    public final int superTokenSoundPath = R.raw.dance;                //Path de sonido de super token.
+    public final int superTokenSoundPath = R.raw.bomb;                //Path de sonido de super token.
+    public final int loserSoundPath = R.raw.loser;              //Path de sonido de fin perdedor.
+    public final int winnerSoundPath = R.raw.winner;              //Path de sonido de fin ganador.
 
 
     public Context context;
-
 
     MediaPlayer gamesound;
     MediaPlayer bottonsound;
     MediaPlayer hexagonconquersound;
     MediaPlayer supertoken;
+    MediaPlayer loser;
+    MediaPlayer winner;
+
+    public final static int musicGameRestart = -3;
+    public final static int musicGamePause = -2;
+    public final static int musicGameStop = -1;
+    public final static int musicGame = 1;
+    public final static int soundButtons = 2;
+    public final static int soundConquer = 3;
+    public final static int soundBoom = 4;
+    public final static int soundLoser = 5;
+    public final static int soundWinner = 6;
 
     public boolean isMusicActive = true;                        //Variable si esta habilitada lla Música
     public boolean isSoundActive = true;                        //Variable si esta habitados llos sonidos.
@@ -32,6 +47,7 @@ public class Sounds extends AppCompatActivity {
     public Sounds() {}
 
     public Sounds(Context context) {
+
         this.context = context;
     }
 
@@ -49,6 +65,7 @@ public class Sounds extends AppCompatActivity {
      */
     private void playGameSound() {
         gamesound = MediaPlayer.create(context, gameSoundPath);               //Creamos mediaplayer para el sonido del juego.
+        gamesound.setAudioStreamType(AudioManager.STREAM_MUSIC);
         gamesound.setLooping(true);
         gamesound.start();
     }
@@ -57,24 +74,58 @@ public class Sounds extends AppCompatActivity {
      * Funcion que se encarga de reproducir el sonido de botones.
      */
     private void playBottonsSound() {
-        bottonsound = MediaPlayer.create(context, buttonsSoundPath);            //Creamos mediaplayer para el sonido de los botones
-        bottonsound.start();
+        if(bottonsound==null) {
+            bottonsound = MediaPlayer.create(context, buttonsSoundPath);            //Creamos mediaplayer para el sonido de los botones
+            bottonsound.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+        }
+        if(!bottonsound.isPlaying()) {
+            bottonsound.start();
+        }
+
     }
 
     /**
      * Funcion que se encarga de reproducir el sonido de la conquista.
      */
-    private void playHexagonConquerSound() {
-        hexagonconquersound = MediaPlayer.create(context, hexagonconquerSoundPath);  //Creamos mediaplayer para el sonido de la conquista de los hexagonostones.
-        hexagonconquersound.start();
+    private void playHexagonConquerSound()
+    {
+        if(hexagonconquersound==null) {
+            hexagonconquersound = MediaPlayer.create(context, hexagonconquerSoundPath);  //Creamos mediaplayer para el sonido de la conquista de los hexagonostones.
+            hexagonconquersound.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        }
+        if(!hexagonconquersound.isPlaying()) {
+            hexagonconquersound.start();
+        }
     }
 
     /**
      * Funcion que se encarga de reproducir el sonido de la conquista.
      */
     private void playSuperTokenSound() {
-        supertoken = MediaPlayer.create(context, superTokenSoundPath);             //Media Player para sonido de  Opcines.
-        supertoken.start();
+        if(supertoken==null) {
+            supertoken = MediaPlayer.create(context, superTokenSoundPath);             //Media Player para sonido de  Opcines.
+            supertoken.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        }
+        if(!supertoken.isPlaying()) {
+            supertoken.start();
+        }
+    }
+
+    private void playLoserSound() {
+        if(loser==null) {
+            loser = MediaPlayer.create(context, loserSoundPath);             //Media Player para sonido de  Opcines.
+            loser.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        }
+        loser.start();
+    }
+
+    private void playWinnerSound() {
+        if (winner == null) {
+            winner = MediaPlayer.create(context, winnerSoundPath);             //Media Player para sonido de  Opcines.
+            winner.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        }
+        winner.start();
     }
 
     /**
@@ -84,6 +135,22 @@ public class Sounds extends AppCompatActivity {
         if(gamesound != null)
             gamesound.release();
     }
+
+    private void pauseGameSound() {
+        if (gamesound != null) {
+            if (gamesound.isPlaying()) {
+                gamesound.pause();
+            }
+        }
+    }
+
+        private void restartGameSound() {
+            if (gamesound != null) {
+                if (!gamesound.isPlaying()) {
+                    gamesound.start();
+                }
+            }
+        }
 
     /**
      * Funcion que se encarga de reproducir el sonido segun el parametro de entrada. También desactiva los
@@ -101,23 +168,52 @@ public class Sounds extends AppCompatActivity {
      */
     public void SoundSelection(int sound){
 
-        if(sound == 1 && isMusicActive == true){
-            playGameSound();
-        }
-        else  if(sound == 2 && isSoundActive == true){
-            playBottonsSound();
-        }
-        else  if(sound == 3 && isSoundActive == true){
-            playHexagonConquerSound();
-        }
-        else  if(sound == 4 && isSoundActive == true){
-            playSuperTokenSound();
+        if(isSoundActive) {
+            switch (sound) {
+                case soundButtons:
+                    playBottonsSound();
+                    break;
+                case soundConquer:
+                    playHexagonConquerSound();
+                    break;
+                case soundBoom:
+                    playSuperTokenSound();
+                    break;
+                case soundWinner:
+                    playWinnerSound();
+                    break;
+                case soundLoser:
+                    playLoserSound();
+                    break;
+            }
         }
 
-        if(sound == -1){
-            stopGameSound();
+        if(isMusicActive) {
+            switch (sound) {
+                case musicGame:
+                    playGameSound();
+                    break;
+                case musicGamePause:
+                    pauseGameSound();
+                    break;
+                case musicGameRestart:
+                    restartGameSound();
+                    break;
+                case musicGameStop:
+                    stopGameSound();
+                    break;
+            }
         }
-
+        else {
+            switch (sound) {
+                case musicGameStop:
+                    stopGameSound();
+                    break;
+                case musicGamePause:
+                    pauseGameSound();
+                    break;
+            }
+        }
     }
 
 
