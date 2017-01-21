@@ -35,7 +35,9 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     public final int initialSound = R.raw.dance;                //Path de sonido inicial.
     public final int buttonsSound = R.raw.click;                //Path de sonido de bottones.
     Button newgame,options,rules;
-    String marcador,ganado,perdido;
+    String marcador;
+    String ruta="/sdcard/HexagonWars/score.txt";
+    public static String historico_ganado,historico_perdido;
     TextView about,wins,loses;
     public static int screenWidth = 0;
     public static int screenHeight = 0;
@@ -151,16 +153,21 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
         //Lectura del fichero para el marcador
         try
         {
-            BufferedReader buff=new BufferedReader(new InputStreamReader(openFileInput("score.txt")));
-            ganado=buff.readLine();
-            wins.setText(ganado);
-            perdido=buff.readLine();
-            loses.setText(perdido);
+            BufferedReader buff=new BufferedReader(new InputStreamReader(openFileInput(ruta)));
+            historico_ganado=buff.readLine();
+            System.out.println(historico_ganado);
+            wins.setText(historico_ganado);
+            historico_perdido=buff.readLine();
+            System.out.println(historico_ganado);
+            loses.setText(historico_perdido);
+            buff.close();
         }
         catch (Exception e)
         {
-            wins.setText("0");
-            loses.setText("0");
+            historico_ganado="0";
+            historico_perdido="0";
+            wins.setText(historico_ganado);
+            loses.setText(historico_perdido);
         }
        // mControlsView = findViewById(R.id.fullscreen_content_controls);
         //mContentView = findViewById(R.id.fullscreen_content);

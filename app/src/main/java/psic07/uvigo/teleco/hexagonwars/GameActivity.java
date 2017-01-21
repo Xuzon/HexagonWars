@@ -1,6 +1,7 @@
 package psic07.uvigo.teleco.hexagonwars;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.view.WindowManager;
 import android.util.DisplayMetrics;
 
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import psic07.uvigo.teleco.hexagonwars.ai.AiPlayer;
@@ -24,7 +26,9 @@ public class GameActivity extends AppCompatActivity {
     public final int gameWindowSound = R.raw.epic;                //Path de sonido de la pestaña de juego.
     public final int hexagonSelectionSound = R.raw.click;                //Path de sonido de hexagonos.
     RelativeLayout layout;
+    int resultado_win,resultado_lose;
     public static int SIZE = 150;
+    String ruta="/sdcard/HexagonWars/score.txt";
     public final static int HEXAGONS_PER_ROW = 7;
     public final static int ROWS = 9;
     public static HexagonView topPlayerScore;
@@ -270,10 +274,26 @@ public class GameActivity extends AppCompatActivity {
             HexagonView.testConquer(false);
 
             if(bottomPlayerScore.score > topPlayerScore.score) {
+                resultado_win=Integer.parseInt(InitActivity.historico_ganado)+1;
+                resultado_lose=Integer.parseInt(InitActivity.historico_perdido);
                 alert("Finish", "The BOTTOM player WIN the game. Congratulations!!!!!");
             }
             if(bottomPlayerScore.score < topPlayerScore.score) {
+                resultado_win=Integer.parseInt(InitActivity.historico_ganado);
+                resultado_lose=Integer.parseInt(InitActivity.historico_perdido)+1;
                 alert("Finish", "The TOP player WIN the game. Congratulations!!!!!");
+            }
+            try
+            {
+                OutputStreamWriter fout = new OutputStreamWriter(openFileOutput(ruta,Context.MODE_PRIVATE));
+                fout.write(resultado_win+"\n");
+                fout.write(resultado_lose+"\n");
+                System.out.println("He guardado");
+                fout.close();
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex);
             }
             flag_fin=true;
         }
