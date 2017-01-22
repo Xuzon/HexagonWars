@@ -23,7 +23,6 @@ public class HexagonIntelligence {
     }
 
     public UtilityValue Utility(AiPlayer player,boolean superToken){
-        UtilityValue toRet = new UtilityValue();
         ArrayList<HexagonView> myGrid = new ArrayList<>();
         for(HexagonView view : GameActivity.grid){
             myGrid.add(view.Clone());
@@ -39,13 +38,11 @@ public class HexagonIntelligence {
             NearbyEnemiesWeight = player.NearbyEnemiesWeight;
             WillConquerWeight = player.WillConquerWeight;
         }
-        toRet.willConquer += WillConquerValue(myGrid,superToken);
-        toRet.alliesAround += NearbyAlliesValue();
-        toRet.enemiesAround += NearbyEnemiesValue();
-        toRet.posArray = hexagon.posArray;
-
-
-
+        float willConquer = WillConquerValue(myGrid, superToken);
+        float allies = NearbyAlliesValue();
+        float enemies = NearbyEnemiesValue();
+        float value = willConquer + allies + enemies;
+        UtilityValue toRet = new UtilityValue(hexagon.posArray,value,willConquer,enemies,allies);
         return toRet;
     }
 

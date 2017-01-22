@@ -3,6 +3,7 @@ package psic07.uvigo.teleco.hexagonwars.ai;
 import java.net.HttpRetryException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 
 import psic07.uvigo.teleco.hexagonwars.GameActivity;
@@ -22,6 +23,7 @@ public class AiPlayer {
     public ArrayList<UtilityValue> lastCandidates;
     public int lastPoints;
     public int expectedPoints;
+    private boolean firstTurn = true;
 
     public AiPlayer(GameActivity game){
         this.game = game;
@@ -56,7 +58,10 @@ public class AiPlayer {
             lastPoints = GameActivity.topPlayerScore.score;
             expectedPoints = (int) (lastPoints + (float)ut.willConquer / WillConquerWeight);
             HexagonView hexToConquer = GameActivity.grid.get(ut.posArray);
-
+            if(firstTurn){
+                hexToConquer = GameActivity.grid.get(new Random().nextInt(GameActivity.grid.size()));
+                firstTurn = false;
+            }
             if (hexToConquer != null) {
                 lastCandidates = candidates;
                 hexToConquer.ConquerMe();
