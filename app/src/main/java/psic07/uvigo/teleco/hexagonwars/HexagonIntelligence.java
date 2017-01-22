@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import psic07.uvigo.teleco.hexagonwars.ai.AiPlayer;
+import psic07.uvigo.teleco.hexagonwars.ai.UtilityValue;
 
 /**
  * Created by danie on 30/11/2016.
@@ -21,8 +22,8 @@ public class HexagonIntelligence {
         random = new Random();
     }
 
-    public float Utility(AiPlayer player,boolean superToken){
-        float toRet = 0;
+    public UtilityValue Utility(AiPlayer player,boolean superToken){
+        UtilityValue toRet = new UtilityValue();
         ArrayList<HexagonView> myGrid = new ArrayList<>();
         for(HexagonView view : GameActivity.grid){
             myGrid.add(view.Clone());
@@ -38,10 +39,10 @@ public class HexagonIntelligence {
             NearbyEnemiesWeight = player.NearbyEnemiesWeight;
             WillConquerWeight = player.WillConquerWeight;
         }
-        toRet += WillConquerValue(myGrid,superToken);
-        toRet += NearbyAlliesValue();
-        toRet += NearbyEnemiesValue();
-
+        toRet.willConquer += WillConquerValue(myGrid,superToken);
+        toRet.alliesAround += NearbyAlliesValue();
+        toRet.enemiesAround += NearbyEnemiesValue();
+        toRet.posArray = hexagon.posArray;
 
 
 
