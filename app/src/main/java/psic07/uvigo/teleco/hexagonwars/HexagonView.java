@@ -19,13 +19,13 @@ import java.util.ArrayList;
 public class HexagonView extends View implements View.OnClickListener{
     public HexagonDrawable hexagon;
     public HexagonIntelligence intelligence;
+    public int score = 0;
     Vector2 coords;
     Vector2 dim;
     int posX;
     int posY;
     int posArray;
     boolean hexScore = false; //Indica si el Hexagono es de partida o de Score
-    int score = 0;
     GameActivity game;
     boolean conquerable = false;
     /**
