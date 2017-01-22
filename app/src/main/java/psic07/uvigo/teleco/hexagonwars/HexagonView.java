@@ -102,7 +102,9 @@ public class HexagonView extends View implements View.OnClickListener{
         boolean pintable = false;
 
         if(((GameActivity)this.getContext()).superTokenOn) {
-            InitActivity.sounds.SoundSelection(Sounds.soundBoom);
+            if(game.turnColor==InitActivity.bottomPlayerColor) {
+                InitActivity.sounds.SoundSelection(Sounds.soundBoom);
+            }
             if(hexagon.centerColor==HexagonDrawable.transparent) {
                 hexagon.centerColor = game.turnColor;    //Cambiamos el color del hexágono actual
                 superToken(false,null);
