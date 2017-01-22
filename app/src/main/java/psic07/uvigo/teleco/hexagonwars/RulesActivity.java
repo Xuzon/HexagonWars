@@ -20,4 +20,20 @@ public class RulesActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.rulesactivity);
     }
+
+    @Override
+    protected  void onResume() {
+        InitActivity.activityChange=false;
+        InitActivity.sounds.SoundSelection(Sounds.musicGameRestart);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        if(!InitActivity.activityChange) {
+            InitActivity.sounds.SoundSelection(Sounds.musicGamePause);
+        }
+        super.onRestart();
+    }
+
 }

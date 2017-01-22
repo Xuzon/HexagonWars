@@ -384,6 +384,4 @@ public class GameActivity extends AppCompatActivity {
         super.onRestart();
     }
 
-
-
 }

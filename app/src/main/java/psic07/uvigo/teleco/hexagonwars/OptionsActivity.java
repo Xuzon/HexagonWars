@@ -154,15 +154,19 @@ public class OptionsActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
+
     @Override
     protected  void onResume() {
+        InitActivity.activityChange=false;
         InitActivity.sounds.SoundSelection(Sounds.musicGameRestart);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        InitActivity.sounds.SoundSelection(Sounds.musicGamePause);
+        if(!InitActivity.activityChange) {
+            InitActivity.sounds.SoundSelection(Sounds.musicGamePause);
+        }
         super.onRestart();
     }
 

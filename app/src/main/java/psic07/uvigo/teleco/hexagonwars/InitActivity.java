@@ -39,6 +39,7 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
     public static int screenHeight = 0;
     OptionsActivity optionsActivity = new OptionsActivity();
     static Sounds sounds;
+    public static boolean activityChange = false;
 
 
     public static LinkedList<Integer> colors = new LinkedList<Integer>();
@@ -121,6 +122,8 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
         sounds.SoundSelection(Sounds.musicGame);
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
 
         //Remove notification bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -243,16 +246,20 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId())
         {
             case(R.id.new_game):
+
                 Intent game=new Intent(getApplicationContext(),GameActivity.class);
                 startActivity(game);
+                activityChange=true;
                 break;
             case(R.id.options):
                 Intent opciones=new Intent(getApplicationContext(),OptionsActivity.class);
                 startActivity(opciones);
+                activityChange=true;
                 break;
             case(R.id.rules):
                 Intent normas=new Intent(getApplicationContext(),RulesActivity.class);
                 startActivity(normas);
+                activityChange=true;
                 break;
             case(R.id.about):
                 alert("Developers","PSIC07:\n- Daniel Garrido Súarez\n- Waheed Muhammad Mughal\n- Bruno Nogareda Da Cruz\n- Guillermo Rodríguez Agrasar");
@@ -283,14 +290,16 @@ public class InitActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onPause() {
-        sounds.SoundSelection(Sounds.musicGamePause);
+        if(!activityChange) {
+            sounds.SoundSelection(Sounds.musicGamePause);
+        }
         super.onRestart();
     }
 
 
     @Override
     protected void onResume() {
-
+        activityChange=false;
         sounds.SoundSelection(Sounds.musicGameRestart);
         wins.setText(historico_ganado+"");
         loses.setText(historico_perdido+"");

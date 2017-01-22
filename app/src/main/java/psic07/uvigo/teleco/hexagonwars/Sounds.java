@@ -49,6 +49,7 @@ public class Sounds extends AppCompatActivity {
     public Sounds(Context context) {
 
         this.context = context;
+
     }
 
 //    public void createSounds (){
@@ -74,14 +75,15 @@ public class Sounds extends AppCompatActivity {
      * Funcion que se encarga de reproducir el sonido de botones.
      */
     private void playBottonsSound() {
-        if(bottonsound==null) {
-            bottonsound = MediaPlayer.create(context, buttonsSoundPath);            //Creamos mediaplayer para el sonido de los botones
-            bottonsound.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
+        if(bottonsound!=null) {
+            bottonsound.stop();
+            bottonsound.reset();
+            bottonsound.release();
+            bottonsound = null;
         }
-        if(!bottonsound.isPlaying()) {
-            bottonsound.start();
-        }
+        bottonsound = MediaPlayer.create(context, buttonsSoundPath);            //Creamos mediaplayer para el sonido de los botones
+        bottonsound.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        bottonsound.start();
 
     }
 
@@ -90,26 +92,30 @@ public class Sounds extends AppCompatActivity {
      */
     private void playHexagonConquerSound()
     {
-        if(hexagonconquersound==null) {
-            hexagonconquersound = MediaPlayer.create(context, hexagonconquerSoundPath);  //Creamos mediaplayer para el sonido de la conquista de los hexagonostones.
-            hexagonconquersound.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        if(hexagonconquersound!=null) {
+            hexagonconquersound.stop();
+            hexagonconquersound.reset();
+            hexagonconquersound.release();
+            hexagonconquersound = null;
         }
-        if(!hexagonconquersound.isPlaying()) {
-            hexagonconquersound.start();
-        }
+        hexagonconquersound = MediaPlayer.create(context, hexagonconquerSoundPath);  //Creamos mediaplayer para el sonido de la conquista de los hexagonostones.
+        hexagonconquersound.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        hexagonconquersound.start();
     }
 
     /**
-     * Funcion que se encarga de reproducir el sonido de la conquista.
+//     * Funcion que se encarga de reproducir el sonido de la conquista.
      */
     private void playSuperTokenSound() {
-        if(supertoken==null) {
-            supertoken = MediaPlayer.create(context, superTokenSoundPath);             //Media Player para sonido de  Opcines.
-            supertoken.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        if(supertoken!=null) {
+            supertoken.stop();
+            supertoken.reset();
+            supertoken.release();
+            supertoken = null;
         }
-        if(!supertoken.isPlaying()) {
-            supertoken.start();
-        }
+        supertoken = MediaPlayer.create(context, superTokenSoundPath);             //Media Player para sonido de  Opcines.
+        supertoken.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        supertoken.start();
     }
 
     private void playLoserSound() {
@@ -215,7 +221,5 @@ public class Sounds extends AppCompatActivity {
             }
         }
     }
-
-
 
 }
