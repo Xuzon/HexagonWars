@@ -34,7 +34,7 @@
         android:id="@+id/lose" />
 
     <TextView
-        android:text="Hexagon Wars"
+        android:text="@string/app_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/HexagonWars"

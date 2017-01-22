@@ -263,9 +263,11 @@ public class GameActivity extends AppCompatActivity {
 
             if (turnColor == InitActivity.bottomPlayerColor) {
                 turnColor = InitActivity.topPlayerColor;
+                noturnColor = InitActivity.bottomPlayerColor;
             }
             else {
                 turnColor = InitActivity.bottomPlayerColor;
+                noturnColor = InitActivity.topPlayerColor;
             }
 
             //Comprobamos si el oponete debe conquistar algo antes de terminar.
