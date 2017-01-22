@@ -261,6 +261,13 @@ public class GameActivity extends AppCompatActivity {
         //Comprobamos si se han cubierto todos los hexágonos y en ese caso quién sería el ganador.
         if((bottomPlayerScore.score + topPlayerScore.score) == grid.size()) {
 
+            if (turnColor == InitActivity.bottomPlayerColor) {
+                turnColor = InitActivity.topPlayerColor;
+            }
+            else {
+                turnColor = InitActivity.bottomPlayerColor;
+            }
+
             //Comprobamos si el oponete debe conquistar algo antes de terminar.
             HexagonView.testConquer(false);
 
