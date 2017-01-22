@@ -87,7 +87,6 @@ public class HexagonIntelligence {
         int differenceHisPoints = nextPoints.hisPoints - olderPoints.hisPoints;
         toRet = differenceMyPoints - differenceHisPoints;
 //        toRet = tempValue + toRet;
-        System.out.println(differenceMyPoints +" - "+differenceHisPoints+" - "+toRet);
         return  toRet;
     }
 

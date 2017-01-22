@@ -227,8 +227,9 @@ public class HexagonView extends View implements View.OnClickListener{
         int numEnemies = 0;
 
         //Si el hexagono no es conquistable salimos
-        if(this.hexagon.centerColor!=game.noturnColor)
+        if(this.hexagon.centerColor!=game.noturnColor) {
             return;
+        }
 
         numAllies = countAllies(grid);
         numEnemies = countEnemies(grid);
@@ -426,7 +427,7 @@ public class HexagonView extends View implements View.OnClickListener{
     }
 
     public HexagonView Clone(){
-        HexagonView toRet = new HexagonView(game, game, coords,dim, posY, posX, posArray);
+        HexagonView toRet = new HexagonView(game, game, coords,dim, posX, posY, posArray);
         toRet.hexagon.centerColor = this.hexagon.centerColor;
         return   toRet;
     }
