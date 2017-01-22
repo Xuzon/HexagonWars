@@ -72,21 +72,22 @@ public class HexagonIntelligence {
 
     protected int SimulateMovement(ArrayList<HexagonView> myGrid,boolean superToken){
         int toRet = 0;
-        int tempValue = 0;
+//        int tempValue = 0;
 
         PointsClass olderPoints = CountPoints(myGrid);
         ChangeAffectedColors(myGrid, superToken);
         //myCopy.testConquerAround(true,myGrid);
         for (HexagonView hex : myGrid) {
             hex.testConquerAround(true,myGrid);
-            tempValue += ((hex.intelligence.NearbyAlliesValue())*0.5f)/myGrid.size();
-            tempValue += ((hex.intelligence.NearbyEnemiesValue())*0.5f)/myGrid.size();
+//            tempValue += ((hex.intelligence.NearbyAlliesValue())*0.5f)/myGrid.size();
+//            tempValue += ((hex.intelligence.NearbyEnemiesValue())*0.5f)/myGrid.size();
         }
         PointsClass nextPoints = CountPoints(myGrid);
         int differenceMyPoints = nextPoints.myPoints - olderPoints.myPoints;
         int differenceHisPoints = nextPoints.hisPoints - olderPoints.hisPoints;
         toRet = differenceMyPoints - differenceHisPoints;
-        toRet = tempValue + toRet;
+//        toRet = tempValue + toRet;
+        System.out.println(differenceMyPoints +" - "+differenceHisPoints+" - "+toRet);
         return  toRet;
     }
 
@@ -95,9 +96,7 @@ public class HexagonIntelligence {
         if(superToken) {
             myCopy.superToken(true, myGrid);
         }
-        else {
-            myCopy.ChangeColor(true);
-        }
+        myCopy.ChangeColor(true);
     }
 
     private PointsClass CountPoints(ArrayList<HexagonView> myGrid) {
